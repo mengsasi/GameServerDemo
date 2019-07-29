@@ -29,20 +29,23 @@ router.post('/login', (req, res) => {
             var rtoken = code + "lls"
             res.json({ token: rtoken });
         }
+        else {
+            res.status(500).send('');
+        }
     }
 });
 
-router.post('/refreshToken', (req, res) => {
+router.post('/refreshtoken', (req, res) => {
     const body = req.body;
     const rtoken = body.token;
     const code = rtoken.substr(0, rtoken.length - 3);
     if (accountDb[code]) {
         //账号存在，返回token，其实应该刷新，省掉了
-        res.json({ r: 1, token: rtoken });
+        res.json({ r: 0, token: rtoken });
     }
     else {
         //账号不存在，重新登陆
-        res.json({ r: 0 });
+        res.json({ r: 1 });
     }
 });
 
