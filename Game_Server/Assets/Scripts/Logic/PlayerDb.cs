@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HttpManager : MonoBehaviour {
+public class PlayerDb : MonoBehaviour {
 
 
 
-    void Start() {
-
-    }
 
 
 
-    void Update() {
 
-    }
+
+
+
 
 
 
