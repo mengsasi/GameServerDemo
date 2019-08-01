@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package protobuf;
-
-message item {
-	string id = 1;
-	int32 count = 2;
-}
