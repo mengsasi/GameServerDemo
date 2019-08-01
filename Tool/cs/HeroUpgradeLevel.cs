@@ -23,23 +23,23 @@ namespace Protobuf {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChhoZXJvX3VwZ3JhZGVfbGV2ZWwucHJvdG8SCHByb3RvYnVmGgppdGVtLnBy",
-            "b3RvIlAKFHBsYXllcl91cGdyYWRlX2xldmVsEgoKAmlkGAEgASgJEg0KBWxl",
-            "dmVsGAIgASgFEh0KBWl0ZW1zGAMgAygLMg4ucHJvdG9idWYuaXRlbWIGcHJv",
-            "dG8z"));
+            "b3RvIk4KEmhlcm9fdXBncmFkZV9sZXZlbBIKCgJpZBgBIAEoCRINCgVsZXZl",
+            "bBgCIAEoBRIdCgVpdGVtcxgDIAMoCzIOLnByb3RvYnVmLml0ZW1iBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protobuf.ItemReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.player_upgrade_level), global::Protobuf.player_upgrade_level.Parser, new[]{ "Id", "Level", "Items" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.hero_upgrade_level), global::Protobuf.hero_upgrade_level.Parser, new[]{ "Id", "Level", "Items" }, null, null, null)
           }));
     }
     #endregion
 
   }
   #region Messages
-  public sealed partial class player_upgrade_level : pb::IMessage<player_upgrade_level> {
-    private static readonly pb::MessageParser<player_upgrade_level> _parser = new pb::MessageParser<player_upgrade_level>(() => new player_upgrade_level());
+  public sealed partial class hero_upgrade_level : pb::IMessage<hero_upgrade_level> {
+    private static readonly pb::MessageParser<hero_upgrade_level> _parser = new pb::MessageParser<hero_upgrade_level>(() => new hero_upgrade_level());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<player_upgrade_level> Parser { get { return _parser; } }
+    public static pb::MessageParser<hero_upgrade_level> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -52,22 +52,22 @@ namespace Protobuf {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public player_upgrade_level() {
+    public hero_upgrade_level() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public player_upgrade_level(player_upgrade_level other) : this() {
+    public hero_upgrade_level(hero_upgrade_level other) : this() {
       id_ = other.id_;
       level_ = other.level_;
       items_ = other.items_.Clone();
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public player_upgrade_level Clone() {
-      return new player_upgrade_level(this);
+    public hero_upgrade_level Clone() {
+      return new hero_upgrade_level(this);
     }
 
     /// <summary>Field number for the "id" field.</summary>
@@ -110,11 +110,11 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as player_upgrade_level);
+      return Equals(other as hero_upgrade_level);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(player_upgrade_level other) {
+    public bool Equals(hero_upgrade_level other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -168,7 +168,7 @@ namespace Protobuf {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(player_upgrade_level other) {
+    public void MergeFrom(hero_upgrade_level other) {
       if (other == null) {
         return;
       }
