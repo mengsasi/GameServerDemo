@@ -7,7 +7,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Protobuf {
+namespace GameProto {
 
   /// <summary>Holder for reflection information generated from Character.proto</summary>
   public static partial class CharacterReflection {
@@ -22,14 +22,14 @@ namespace Protobuf {
     static CharacterReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg9DaGFyYWN0ZXIucHJvdG8SCHByb3RvYnVmGgpIZXJvLnByb3RvGgpJdGVt",
-            "LnByb3RvInUKCUNoYXJhY3RlchIKCgJpZBgBIAEoCRIPCgd1c2VuYW1lGAIg",
-            "ASgJEg0KBWxldmVsGAMgASgJEh0KBWhlcm9zGAQgAygLMg4ucHJvdG9idWYu",
-            "SGVybxIdCgVpdGVtcxgFIAMoCzIOLnByb3RvYnVmLkl0ZW1iBnByb3RvMw=="));
+            "Cg9DaGFyYWN0ZXIucHJvdG8SCWdhbWVQcm90bxoKSGVyby5wcm90bxoKSXRl",
+            "bS5wcm90byJ0CglDaGFyYWN0ZXISCgoCaWQYASABKAkSDAoEbmFtZRgCIAEo",
+            "CRINCgVsZXZlbBgDIAEoCRIeCgVoZXJvcxgEIAMoCzIPLmdhbWVQcm90by5I",
+            "ZXJvEh4KBWl0ZW1zGAUgAygLMg8uZ2FtZVByb3RvLkl0ZW1iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Protobuf.HeroReflection.Descriptor, global::Protobuf.ItemReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::GameProto.HeroReflection.Descriptor, global::GameProto.ItemReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Character), global::Protobuf.Character.Parser, new[]{ "Id", "Usename", "Level", "Heros", "Items" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Character), global::GameProto.Character.Parser, new[]{ "Id", "Name", "Level", "Heros", "Items" }, null, null, null)
           }));
     }
     #endregion
@@ -43,7 +43,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.CharacterReflection.Descriptor.MessageTypes[0]; }
+      get { return global::GameProto.CharacterReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -61,7 +61,7 @@ namespace Protobuf {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Character(Character other) : this() {
       id_ = other.id_;
-      usename_ = other.usename_;
+      name_ = other.name_;
       level_ = other.level_;
       heros_ = other.heros_.Clone();
       items_ = other.items_.Clone();
@@ -83,14 +83,14 @@ namespace Protobuf {
       }
     }
 
-    /// <summary>Field number for the "usename" field.</summary>
-    public const int UsenameFieldNumber = 2;
-    private string usename_ = "";
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 2;
+    private string name_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Usename {
-      get { return usename_; }
+    public string Name {
+      get { return name_; }
       set {
-        usename_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -107,21 +107,21 @@ namespace Protobuf {
 
     /// <summary>Field number for the "heros" field.</summary>
     public const int HerosFieldNumber = 4;
-    private static readonly pb::FieldCodec<global::Protobuf.Hero> _repeated_heros_codec
-        = pb::FieldCodec.ForMessage(34, global::Protobuf.Hero.Parser);
-    private readonly pbc::RepeatedField<global::Protobuf.Hero> heros_ = new pbc::RepeatedField<global::Protobuf.Hero>();
+    private static readonly pb::FieldCodec<global::GameProto.Hero> _repeated_heros_codec
+        = pb::FieldCodec.ForMessage(34, global::GameProto.Hero.Parser);
+    private readonly pbc::RepeatedField<global::GameProto.Hero> heros_ = new pbc::RepeatedField<global::GameProto.Hero>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::Protobuf.Hero> Heros {
+    public pbc::RepeatedField<global::GameProto.Hero> Heros {
       get { return heros_; }
     }
 
     /// <summary>Field number for the "items" field.</summary>
     public const int ItemsFieldNumber = 5;
-    private static readonly pb::FieldCodec<global::Protobuf.Item> _repeated_items_codec
-        = pb::FieldCodec.ForMessage(42, global::Protobuf.Item.Parser);
-    private readonly pbc::RepeatedField<global::Protobuf.Item> items_ = new pbc::RepeatedField<global::Protobuf.Item>();
+    private static readonly pb::FieldCodec<global::GameProto.Item> _repeated_items_codec
+        = pb::FieldCodec.ForMessage(42, global::GameProto.Item.Parser);
+    private readonly pbc::RepeatedField<global::GameProto.Item> items_ = new pbc::RepeatedField<global::GameProto.Item>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::Protobuf.Item> Items {
+    public pbc::RepeatedField<global::GameProto.Item> Items {
       get { return items_; }
     }
 
@@ -139,7 +139,7 @@ namespace Protobuf {
         return true;
       }
       if (Id != other.Id) return false;
-      if (Usename != other.Usename) return false;
+      if (Name != other.Name) return false;
       if (Level != other.Level) return false;
       if(!heros_.Equals(other.heros_)) return false;
       if(!items_.Equals(other.items_)) return false;
@@ -150,7 +150,7 @@ namespace Protobuf {
     public override int GetHashCode() {
       int hash = 1;
       if (Id.Length != 0) hash ^= Id.GetHashCode();
-      if (Usename.Length != 0) hash ^= Usename.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Level.Length != 0) hash ^= Level.GetHashCode();
       hash ^= heros_.GetHashCode();
       hash ^= items_.GetHashCode();
@@ -168,9 +168,9 @@ namespace Protobuf {
         output.WriteRawTag(10);
         output.WriteString(Id);
       }
-      if (Usename.Length != 0) {
+      if (Name.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteString(Usename);
+        output.WriteString(Name);
       }
       if (Level.Length != 0) {
         output.WriteRawTag(26);
@@ -186,8 +186,8 @@ namespace Protobuf {
       if (Id.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
       }
-      if (Usename.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Usename);
+      if (Name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
       if (Level.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Level);
@@ -205,8 +205,8 @@ namespace Protobuf {
       if (other.Id.Length != 0) {
         Id = other.Id;
       }
-      if (other.Usename.Length != 0) {
-        Usename = other.Usename;
+      if (other.Name.Length != 0) {
+        Name = other.Name;
       }
       if (other.Level.Length != 0) {
         Level = other.Level;
@@ -228,7 +228,7 @@ namespace Protobuf {
             break;
           }
           case 18: {
-            Usename = input.ReadString();
+            Name = input.ReadString();
             break;
           }
           case 26: {

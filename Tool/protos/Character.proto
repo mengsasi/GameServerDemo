@@ -1,15 +1,15 @@
 syntax = "proto3";
 
-package protobuf;
+package gameProto;
 
 import "Hero.proto";
 import "Item.proto";
 
 message Character {
 	string id = 1;
-	string usename = 2;
+	string name = 2;
 	string level = 3;
 	
-	repeated protobuf.Hero heros = 4;
-	repeated protobuf.Item items = 5;
+	repeated gameProto.Hero heros = 4;
+	repeated gameProto.Item items = 5;
 }

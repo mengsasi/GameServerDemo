@@ -7,7 +7,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Protobuf {
+namespace GameProto {
 
   /// <summary>Holder for reflection information generated from Heartbeat.proto</summary>
   public static partial class HeartbeatReflection {
@@ -22,12 +22,12 @@ namespace Protobuf {
     static HeartbeatReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg9IZWFydGJlYXQucHJvdG8SCHByb3RvYnVmIgsKCUhlYXJ0YmVhdGIGcHJv",
-            "dG8z"));
+            "Cg9IZWFydGJlYXQucHJvdG8SCWdhbWVQcm90byILCglIZWFydGJlYXRiBnBy",
+            "b3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Heartbeat), global::Protobuf.Heartbeat.Parser, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Heartbeat), global::GameProto.Heartbeat.Parser, null, null, null, null)
           }));
     }
     #endregion
@@ -41,7 +41,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.HeartbeatReflection.Descriptor.MessageTypes[0]; }
+      get { return global::GameProto.HeartbeatReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

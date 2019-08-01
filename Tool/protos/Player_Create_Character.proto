@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package protobuf;
+package gameProto;
 
 import "Character.proto";
 
@@ -9,5 +9,5 @@ message Player_Create_Character {
 	string name = 1;
 	
 	//response
-	protobuf.Character character = 2;
+	gameProto.Character character = 2;
 }

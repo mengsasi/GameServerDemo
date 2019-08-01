@@ -7,7 +7,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Protobuf {
+namespace GameProto {
 
   /// <summary>Holder for reflection information generated from Player_Create_Character.proto</summary>
   public static partial class PlayerCreateCharacterReflection {
@@ -22,14 +22,14 @@ namespace Protobuf {
     static PlayerCreateCharacterReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Ch1QbGF5ZXJfQ3JlYXRlX0NoYXJhY3Rlci5wcm90bxIIcHJvdG9idWYaD0No",
-            "YXJhY3Rlci5wcm90byJPChdQbGF5ZXJfQ3JlYXRlX0NoYXJhY3RlchIMCgRu",
-            "YW1lGAEgASgJEiYKCWNoYXJhY3RlchgCIAEoCzITLnByb3RvYnVmLkNoYXJh",
-            "Y3RlcmIGcHJvdG8z"));
+            "Ch1QbGF5ZXJfQ3JlYXRlX0NoYXJhY3Rlci5wcm90bxIJZ2FtZVByb3RvGg9D",
+            "aGFyYWN0ZXIucHJvdG8iUAoXUGxheWVyX0NyZWF0ZV9DaGFyYWN0ZXISDAoE",
+            "bmFtZRgBIAEoCRInCgljaGFyYWN0ZXIYAiABKAsyFC5nYW1lUHJvdG8uQ2hh",
+            "cmFjdGVyYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Protobuf.CharacterReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::GameProto.CharacterReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Player_Create_Character), global::Protobuf.Player_Create_Character.Parser, new[]{ "Name", "Character" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Player_Create_Character), global::GameProto.Player_Create_Character.Parser, new[]{ "Name", "Character" }, null, null, null)
           }));
     }
     #endregion
@@ -43,7 +43,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.PlayerCreateCharacterReflection.Descriptor.MessageTypes[0]; }
+      get { return global::GameProto.PlayerCreateCharacterReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -85,12 +85,12 @@ namespace Protobuf {
 
     /// <summary>Field number for the "character" field.</summary>
     public const int CharacterFieldNumber = 2;
-    private global::Protobuf.Character character_;
+    private global::GameProto.Character character_;
     /// <summary>
     /// response
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Protobuf.Character Character {
+    public global::GameProto.Character Character {
       get { return character_; }
       set {
         character_ = value;
@@ -162,7 +162,7 @@ namespace Protobuf {
       }
       if (other.character_ != null) {
         if (character_ == null) {
-          character_ = new global::Protobuf.Character();
+          character_ = new global::GameProto.Character();
         }
         Character.MergeFrom(other.Character);
       }
@@ -182,7 +182,7 @@ namespace Protobuf {
           }
           case 18: {
             if (character_ == null) {
-              character_ = new global::Protobuf.Character();
+              character_ = new global::GameProto.Character();
             }
             input.ReadMessage(character_);
             break;

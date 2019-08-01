@@ -7,7 +7,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Protobuf {
+namespace GameProto {
 
   /// <summary>Holder for reflection information generated from Login.proto</summary>
   public static partial class LoginReflection {
@@ -22,12 +22,12 @@ namespace Protobuf {
     static LoginReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "CgtMb2dpbi5wcm90bxIIcHJvdG9idWYiMAoFTG9naW4SCgoCaWQYASABKAkS",
-            "DAoEdGltZRgCIAEoAxINCgV0b2tlbhgDIAEoCWIGcHJvdG8z"));
+            "CgtMb2dpbi5wcm90bxIJZ2FtZVByb3RvIjAKBUxvZ2luEgoKAmlkGAEgASgJ",
+            "EgwKBHRpbWUYAiABKAMSDQoFdG9rZW4YAyABKAliBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Login), global::Protobuf.Login.Parser, new[]{ "Id", "Time", "Token" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Login), global::GameProto.Login.Parser, new[]{ "Id", "Time", "Token" }, null, null, null)
           }));
     }
     #endregion
@@ -41,7 +41,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.LoginReflection.Descriptor.MessageTypes[0]; }
+      get { return global::GameProto.LoginReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

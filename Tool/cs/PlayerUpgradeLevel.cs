@@ -7,7 +7,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Protobuf {
+namespace GameProto {
 
   /// <summary>Holder for reflection information generated from Player_Upgrade_Level.proto</summary>
   public static partial class PlayerUpgradeLevelReflection {
@@ -22,13 +22,13 @@ namespace Protobuf {
     static PlayerUpgradeLevelReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChpQbGF5ZXJfVXBncmFkZV9MZXZlbC5wcm90bxIIcHJvdG9idWYaCkl0ZW0u",
-            "cHJvdG8iRAoUUGxheWVyX1VwZ3JhZGVfTGV2ZWwSDQoFbGV2ZWwYASABKAUS",
-            "HQoFaXRlbXMYAiADKAsyDi5wcm90b2J1Zi5JdGVtYgZwcm90bzM="));
+            "ChpQbGF5ZXJfVXBncmFkZV9MZXZlbC5wcm90bxIJZ2FtZVByb3RvGgpJdGVt",
+            "LnByb3RvIkUKFFBsYXllcl9VcGdyYWRlX0xldmVsEg0KBWxldmVsGAEgASgF",
+            "Eh4KBWl0ZW1zGAIgAygLMg8uZ2FtZVByb3RvLkl0ZW1iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Protobuf.ItemReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::GameProto.ItemReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Player_Upgrade_Level), global::Protobuf.Player_Upgrade_Level.Parser, new[]{ "Level", "Items" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Player_Upgrade_Level), global::GameProto.Player_Upgrade_Level.Parser, new[]{ "Level", "Items" }, null, null, null)
           }));
     }
     #endregion
@@ -42,7 +42,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.PlayerUpgradeLevelReflection.Descriptor.MessageTypes[0]; }
+      get { return global::GameProto.PlayerUpgradeLevelReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -85,11 +85,11 @@ namespace Protobuf {
 
     /// <summary>Field number for the "items" field.</summary>
     public const int ItemsFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Protobuf.Item> _repeated_items_codec
-        = pb::FieldCodec.ForMessage(18, global::Protobuf.Item.Parser);
-    private readonly pbc::RepeatedField<global::Protobuf.Item> items_ = new pbc::RepeatedField<global::Protobuf.Item>();
+    private static readonly pb::FieldCodec<global::GameProto.Item> _repeated_items_codec
+        = pb::FieldCodec.ForMessage(18, global::GameProto.Item.Parser);
+    private readonly pbc::RepeatedField<global::GameProto.Item> items_ = new pbc::RepeatedField<global::GameProto.Item>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::Protobuf.Item> Items {
+    public pbc::RepeatedField<global::GameProto.Item> Items {
       get { return items_; }
     }
 

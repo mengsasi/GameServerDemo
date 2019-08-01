@@ -7,7 +7,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Protobuf {
+namespace GameProto {
 
   /// <summary>Holder for reflection information generated from Global_Use_Item.proto</summary>
   public static partial class GlobalUseItemReflection {
@@ -22,13 +22,13 @@ namespace Protobuf {
     static GlobalUseItemReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChVHbG9iYWxfVXNlX0l0ZW0ucHJvdG8SCHByb3RvYnVmGgpJdGVtLnByb3Rv",
-            "IksKD0dsb2JhbF9Vc2VfSXRlbRIKCgJpZBgBIAEoCRINCgVjb3VudBgCIAEo",
-            "BRIdCgVpdGVtcxgDIAMoCzIOLnByb3RvYnVmLkl0ZW1iBnByb3RvMw=="));
+            "ChVHbG9iYWxfVXNlX0l0ZW0ucHJvdG8SCWdhbWVQcm90bxoKSXRlbS5wcm90",
+            "byJMCg9HbG9iYWxfVXNlX0l0ZW0SCgoCaWQYASABKAkSDQoFY291bnQYAiAB",
+            "KAUSHgoFaXRlbXMYAyADKAsyDy5nYW1lUHJvdG8uSXRlbWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Protobuf.ItemReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::GameProto.ItemReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Global_Use_Item), global::Protobuf.Global_Use_Item.Parser, new[]{ "Id", "Count", "Items" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Global_Use_Item), global::GameProto.Global_Use_Item.Parser, new[]{ "Id", "Count", "Items" }, null, null, null)
           }));
     }
     #endregion
@@ -42,7 +42,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.GlobalUseItemReflection.Descriptor.MessageTypes[0]; }
+      get { return global::GameProto.GlobalUseItemReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -96,14 +96,14 @@ namespace Protobuf {
 
     /// <summary>Field number for the "items" field.</summary>
     public const int ItemsFieldNumber = 3;
-    private static readonly pb::FieldCodec<global::Protobuf.Item> _repeated_items_codec
-        = pb::FieldCodec.ForMessage(26, global::Protobuf.Item.Parser);
-    private readonly pbc::RepeatedField<global::Protobuf.Item> items_ = new pbc::RepeatedField<global::Protobuf.Item>();
+    private static readonly pb::FieldCodec<global::GameProto.Item> _repeated_items_codec
+        = pb::FieldCodec.ForMessage(26, global::GameProto.Item.Parser);
+    private readonly pbc::RepeatedField<global::GameProto.Item> items_ = new pbc::RepeatedField<global::GameProto.Item>();
     /// <summary>
     /// response
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::Protobuf.Item> Items {
+    public pbc::RepeatedField<global::GameProto.Item> Items {
       get { return items_; }
     }
 

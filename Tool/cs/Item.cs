@@ -7,7 +7,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Protobuf {
+namespace GameProto {
 
   /// <summary>Holder for reflection information generated from Item.proto</summary>
   public static partial class ItemReflection {
@@ -22,12 +22,12 @@ namespace Protobuf {
     static ItemReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "CgpJdGVtLnByb3RvEghwcm90b2J1ZiIhCgRJdGVtEgoKAmlkGAEgASgJEg0K",
-            "BWNvdW50GAIgASgFYgZwcm90bzM="));
+            "CgpJdGVtLnByb3RvEglnYW1lUHJvdG8iIQoESXRlbRIKCgJpZBgBIAEoCRIN",
+            "CgVjb3VudBgCIAEoBWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Item), global::Protobuf.Item.Parser, new[]{ "Id", "Count" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Item), global::GameProto.Item.Parser, new[]{ "Id", "Count" }, null, null, null)
           }));
     }
     #endregion
@@ -41,7 +41,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.ItemReflection.Descriptor.MessageTypes[0]; }
+      get { return global::GameProto.ItemReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

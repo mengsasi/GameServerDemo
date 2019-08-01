@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package protobuf;
+package gameProto;
 
 import "Character.proto"
 
 message Sync_Character {
-	protobuf.Character character = 1;
+	gameProto.Character character = 1;
 }

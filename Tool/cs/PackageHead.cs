@@ -7,7 +7,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Protobuf {
+namespace GameProto {
 
   /// <summary>Holder for reflection information generated from Package_Head.proto</summary>
   public static partial class PackageHeadReflection {
@@ -22,12 +22,12 @@ namespace Protobuf {
     static PackageHeadReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChJQYWNrYWdlX0hlYWQucHJvdG8SCHByb3RvYnVmIi0KDFBhY2thZ2VfSGVh",
-            "ZBIMCgR0eXBlGAEgASgJEg8KB3Nlc3Npb24YAiABKANiBnByb3RvMw=="));
+            "ChJQYWNrYWdlX0hlYWQucHJvdG8SCWdhbWVQcm90byItCgxQYWNrYWdlX0hl",
+            "YWQSDAoEdHlwZRgBIAEoCRIPCgdzZXNzaW9uGAIgASgDYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Package_Head), global::Protobuf.Package_Head.Parser, new[]{ "Type", "Session" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Package_Head), global::GameProto.Package_Head.Parser, new[]{ "Type", "Session" }, null, null, null)
           }));
     }
     #endregion
@@ -41,7 +41,7 @@ namespace Protobuf {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuf.PackageHeadReflection.Descriptor.MessageTypes[0]; }
+      get { return global::GameProto.PackageHeadReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
