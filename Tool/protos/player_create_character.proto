@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package protobuf;
+
+import "character.proto";
+
+message player_create_character {
+	//request
+	string name = 1;
+	
+	//response
+	protobuf.character character = 2;
+}

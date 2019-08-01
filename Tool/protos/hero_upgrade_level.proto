@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package protobuf;
+
+import "item.proto";
+
+message player_upgrade_level {
+	//request
+	string id = 1;
+	//response
+	int32 level = 2;
+	repeated protobuf.item items = 3;
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package protobuf;
+
+import "character.proto"
+
+message sync_character {
+	protobuf.character character = 1;
+}
