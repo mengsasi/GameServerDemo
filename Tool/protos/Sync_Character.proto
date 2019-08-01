@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package protobuf;
+
+import "Character.proto"
+
+message Sync_Character {
+	protobuf.Character character = 1;
+}

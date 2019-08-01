@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package protobuf;
+
+import "Item.proto";
+
+message Player_Upgrade_Level {
+	//request
+	//response
+	int32 level = 1;
+	repeated protobuf.Item items = 2;
+}

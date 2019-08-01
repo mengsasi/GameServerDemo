@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package protobuf;
+
+message Login {
+	//request
+	string id = 1;
+	
+	//response
+	int64 time = 2;
+	string token = 3;
+}
