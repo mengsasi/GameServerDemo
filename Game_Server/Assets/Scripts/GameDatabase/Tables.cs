@@ -2,7 +2,12 @@
 using SQLite4Unity3d;
 using System.Collections.Generic;
 
-public class Item {
+public class HeroData {
+    public string Id;
+    public int Level;
+}
+
+public class ItemData {
     public string Id;
     public int Count;
 }
@@ -11,18 +16,19 @@ public class Item {
 public class CharacterData {
 
     [PrimaryKey]
-    [AutoIncrement]
-    public int Id { get; set; }
+    public int _id { get; set; }
 
-    public string UserCode { get; set; }
+    public string Id { get; set; }//玩家输入的账号
 
-    public string Name { get; set; }
+    public string Name { get; set; }//创建角色时的名字
 
     public int Level { get; set; }
 
+    public string Heros { get; set; }
+
     public string Items { get; set; }
 
-    public List<Item> ListItem = new List<Item>();
+    public List<ItemData> ListItem = new List<ItemData>();
 
     public string GetItemJson() {
         JsonData json = new JsonData();
@@ -36,14 +42,14 @@ public class CharacterData {
         return json.ToString();
     }
 
-    public List<Item> GetItems() {
-        List<Item> list = new List<Item>();
+    public List<ItemData> GetItems() {
+        List<ItemData> list = new List<ItemData>();
         if( !string.IsNullOrEmpty( Items ) ) {
             try {
                 JsonData data = JsonMapper.ToObject( Items );
                 var l = data.ValueAsArray();
                 foreach( var item in l ) {
-                    Item ii = new Item();
+                    ItemData ii = new ItemData();
                     ii.Id = item["id"].ValueAsString();
                     ii.Count = item["count"].ValueAsInt();
                     list.Add( ii );

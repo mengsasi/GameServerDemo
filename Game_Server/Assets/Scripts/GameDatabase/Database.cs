@@ -15,7 +15,11 @@ namespace GameDatabase {
         private static SQLiteConnection Connection {
             get {
                 if( connection == null ) {
+#if UNITY_EDITOR
+                    var path = Application.streamingAssetsPath + "/" + DbName;
+#else 
                     var path = Application.persistentDataPath + "/" + DbName;
+#endif
                     try {
                         connection = new SQLiteConnection( path, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.PrivateCache ) {
                             TimeExecution = true

@@ -3,7 +3,7 @@
 //升级配置
 public class LevelConfig {
     public int Level;
-    public Item Cost;
+    public ItemData Cost;
 }
 
 public class ConfigManager {
@@ -20,28 +20,28 @@ public class ConfigManager {
         //升到2级的消耗
          new LevelConfig() {
             Level = 2,
-            Cost = new Item() {
+            Cost = new ItemData() {
                 Id = "item2",
                 Count = 1
             }
         },
         new LevelConfig() {
             Level = 3,
-            Cost = new Item() {
+            Cost = new ItemData() {
                 Id = "item3",
                 Count = 1
             }
         },
         new LevelConfig() {
             Level = 4,
-            Cost = new Item() {
+            Cost = new ItemData() {
                 Id = "item4",
                 Count = 1
             }
         },
         new LevelConfig() {
             Level = 5,
-            Cost = new Item() {
+            Cost = new ItemData() {
                 Id = "item5",
                 Count = 1
             }
