@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Server {
 
-    public class SessionPool {
+    public class SessionPool : Singleton<SessionPool> {
 
         /// <summary>
         /// 会话池

@@ -3,6 +3,7 @@ using GameProto;
 using Google.Protobuf;
 using System;
 using System.IO;
+using System.Reflection;
 using UnityEngine;
 
 public class TestSproto : MonoBehaviour {
@@ -15,20 +16,36 @@ public class TestSproto : MonoBehaviour {
 
         byte[] datas = character.ToByteArray();
 
-
-        Type t = Type.GetType( "Character" );
-
-
-
-        IMessage imCharacter = new Character();
-        Character ch1 = new Character();
-        ch1 = (Character)imCharacter.Descriptor.Parser.ParseFrom( datas );
+        //IMessage imCharacter = new Character();
+        //Character ch1 = new Character();
+        //ch1 = (Character)imCharacter.Descriptor.Parser.ParseFrom( datas );
 
 
+        string name = "Global_Use_Item";
+
+        byte[] ddd = System.Text.Encoding.UTF8.GetBytes( name );
 
 
-        Debug.Log( ch1.Id );
-        Debug.Log( ch1.Name );
+        string nn = System.Text.Encoding.UTF8.GetString( ddd );
+
+        Debug.Log( nn );
+
+
+        string db_func = "global_use_item";
+
+
+        var indexOf_ = db_func.IndexOf( '_' );
+        string db = db_func.Substring( 0, indexOf_ );
+        string func = db_func.Substring( indexOf_ + 1 );
+
+        Debug.Log( db );
+        Debug.Log( func );
+
+
+
+
+        //Debug.Log( ch1.Id );
+        //Debug.Log( ch1.Name );
 
 
 
