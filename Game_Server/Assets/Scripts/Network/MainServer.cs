@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
@@ -48,9 +49,11 @@ namespace Server {
                     Debug.Log( "连接已满！" );
                 }
                 else {
-                    session.Init( socket );
-                    string address = session.GetRemoteAddress();
-                    Debug.Log( "客户端连接 " + address );
+                    UnityMainThreadDispatcher.Instance.Enqueue( () => {
+                        session.Init( socket );
+                        string address = session.GetRemoteAddress();
+                        Debug.Log( "客户端连接 " + address );
+                    } );
                 }
 
                 Watchdog.BeginAccept( AcceptCallBack, null );
