@@ -2,12 +2,11 @@ syntax = "proto3";
 
 package gameProto;
 
-import "Character.proto";
-
 message Player_Create_Character {
 	//request
 	string name = 1;
 	
 	//response
-	gameProto.Character character = 2;
+	// r=1,有重名的角色
+	int32 r = 2;
 }

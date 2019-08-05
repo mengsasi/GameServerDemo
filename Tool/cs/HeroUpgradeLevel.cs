@@ -23,13 +23,13 @@ namespace GameProto {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChhIZXJvX1VwZ3JhZGVfTGV2ZWwucHJvdG8SCWdhbWVQcm90bxoKSXRlbS5w",
-            "cm90byJPChJIZXJvX1VwZ3JhZGVfTGV2ZWwSCgoCaWQYASABKAkSDQoFbGV2",
-            "ZWwYAiABKAUSHgoFaXRlbXMYAyADKAsyDy5nYW1lUHJvdG8uSXRlbWIGcHJv",
-            "dG8z"));
+            "cm90byJaChJIZXJvX1VwZ3JhZGVfTGV2ZWwSCgoCaWQYASABKAkSCQoBchgC",
+            "IAEoBRINCgVsZXZlbBgDIAEoBRIeCgVpdGVtcxgEIAMoCzIPLmdhbWVQcm90",
+            "by5JdGVtYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::GameProto.ItemReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Hero_Upgrade_Level), global::GameProto.Hero_Upgrade_Level.Parser, new[]{ "Id", "Level", "Items" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Hero_Upgrade_Level), global::GameProto.Hero_Upgrade_Level.Parser, new[]{ "Id", "R", "Level", "Items" }, null, null, null)
           }));
     }
     #endregion
@@ -61,6 +61,7 @@ namespace GameProto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Hero_Upgrade_Level(Hero_Upgrade_Level other) : this() {
       id_ = other.id_;
+      r_ = other.r_;
       level_ = other.level_;
       items_ = other.items_.Clone();
     }
@@ -84,12 +85,23 @@ namespace GameProto {
       }
     }
 
-    /// <summary>Field number for the "level" field.</summary>
-    public const int LevelFieldNumber = 2;
-    private int level_;
+    /// <summary>Field number for the "r" field.</summary>
+    public const int RFieldNumber = 2;
+    private int r_;
     /// <summary>
     /// response
     /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int R {
+      get { return r_; }
+      set {
+        r_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "level" field.</summary>
+    public const int LevelFieldNumber = 3;
+    private int level_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int Level {
       get { return level_; }
@@ -99,9 +111,9 @@ namespace GameProto {
     }
 
     /// <summary>Field number for the "items" field.</summary>
-    public const int ItemsFieldNumber = 3;
+    public const int ItemsFieldNumber = 4;
     private static readonly pb::FieldCodec<global::GameProto.Item> _repeated_items_codec
-        = pb::FieldCodec.ForMessage(26, global::GameProto.Item.Parser);
+        = pb::FieldCodec.ForMessage(34, global::GameProto.Item.Parser);
     private readonly pbc::RepeatedField<global::GameProto.Item> items_ = new pbc::RepeatedField<global::GameProto.Item>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::GameProto.Item> Items {
@@ -122,6 +134,7 @@ namespace GameProto {
         return true;
       }
       if (Id != other.Id) return false;
+      if (R != other.R) return false;
       if (Level != other.Level) return false;
       if(!items_.Equals(other.items_)) return false;
       return true;
@@ -131,6 +144,7 @@ namespace GameProto {
     public override int GetHashCode() {
       int hash = 1;
       if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (R != 0) hash ^= R.GetHashCode();
       if (Level != 0) hash ^= Level.GetHashCode();
       hash ^= items_.GetHashCode();
       return hash;
@@ -147,8 +161,12 @@ namespace GameProto {
         output.WriteRawTag(10);
         output.WriteString(Id);
       }
-      if (Level != 0) {
+      if (R != 0) {
         output.WriteRawTag(16);
+        output.WriteInt32(R);
+      }
+      if (Level != 0) {
+        output.WriteRawTag(24);
         output.WriteInt32(Level);
       }
       items_.WriteTo(output, _repeated_items_codec);
@@ -159,6 +177,9 @@ namespace GameProto {
       int size = 0;
       if (Id.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      }
+      if (R != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(R);
       }
       if (Level != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Level);
@@ -174,6 +195,9 @@ namespace GameProto {
       }
       if (other.Id.Length != 0) {
         Id = other.Id;
+      }
+      if (other.R != 0) {
+        R = other.R;
       }
       if (other.Level != 0) {
         Level = other.Level;
@@ -194,10 +218,14 @@ namespace GameProto {
             break;
           }
           case 16: {
+            R = input.ReadInt32();
+            break;
+          }
+          case 24: {
             Level = input.ReadInt32();
             break;
           }
-          case 26: {
+          case 34: {
             items_.AddEntriesFrom(input, _repeated_items_codec);
             break;
           }
