@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package gameProto;
 
-import "Character.proto"
+import "Character.proto";
 
 message Sync_Character {
 	gameProto.Character character = 1;
