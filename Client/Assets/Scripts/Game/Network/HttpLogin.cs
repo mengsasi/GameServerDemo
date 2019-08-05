@@ -1,7 +1,7 @@
 ﻿using LitJson;
 using System;
 
-public class Login {
+public class HttpLogin {
 
     private static string Server_URL = "http://127.0.0.1:13200";
 
@@ -32,7 +32,7 @@ public class Login {
     public static JsonData JsonToken;
 
     //code 玩家用户名
-    public static void HttpLogin( string code, Action<HttpManager.HttpResponseStatus, JsonData> callback ) {
+    public static void DoHttpLogin( string code, Action<HttpManager.HttpResponseStatus, JsonData> callback ) {
         var body = new {
             code = code,
             sdk = "debug",

@@ -24,59 +24,38 @@ public class TestLogin : MonoBehaviour {
 
     void Awake() {
         BtnCheck.onClick.AddListener( CheckVersion );
-        BtnLogin.onClick.AddListener( HttpLogin );
+        BtnLogin.onClick.AddListener( DoHttpLogin );
         BtnRefresh.onClick.AddListener( Refresh );
 
     }
 
     public void CheckVersion() {
-
-        Login.CheckVersion( ( status, data ) => {
-
+        HttpLogin.CheckVersion( ( status, data ) => {
             Debug.Log( status == HttpManager.HttpResponseStatus.OK ? "success" : "fail" );
-
         } );
-
     }
 
-    public void HttpLogin() {
-
-        Login.HttpLogin( "123", ( status, data ) => {
-
+    public void DoHttpLogin() {
+        HttpLogin.DoHttpLogin( "123", ( status, data ) => {
             if( status == HttpManager.HttpResponseStatus.OK ) {
-
                 Debug.Log( data["token"].ValueAsString() );
-
             }
             else {
-
                 Debug.Log( "fail" );
-
             }
-
         } );
-
     }
 
     public void Refresh() {
-
-        string oldToken = Login.JsonToken["token"].ValueAsString();
-
-        Login.RefreshToken( oldToken, ( status, data ) => {
-
+        string oldToken = global::HttpLogin.JsonToken["token"].ValueAsString();
+        HttpLogin.RefreshToken( oldToken, ( status, data ) => {
             if( status == HttpManager.HttpResponseStatus.OK ) {
-
                 Debug.Log( data["token"].ValueAsString() );
-
             }
             else {
-
                 Debug.Log( "fail" );
-
             }
-
         } );
-
     }
 
 }
