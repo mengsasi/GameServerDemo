@@ -1,10 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Sockets;
 using UnityEngine;
 
 namespace Server {
 
-    public class SessionClient {
+    public class NetworkTcpClient {
+
+        public long ID;
+
+        /// <summary>
+        /// 套接字
+        /// </summary>
+        private Socket socket;
+
+        private Queue<byte[]> recvQueue = new Queue<byte[]>();
 
         /// <summary>
         /// 缓冲区大小
@@ -17,19 +27,9 @@ namespace Server {
         private byte[] readBuffer = new byte[BUFFER_SIZE];
 
         /// <summary>
-        /// 套接字
-        /// </summary>
-        private Socket socket;
-
-        /// <summary>
         /// 是否使用
         /// </summary>
         public bool isUse = false;
-
-        /// <summary>
-        /// 动态缓冲区
-        /// </summary>
-
 
         /// <summary>
         /// 初始化
@@ -42,6 +42,14 @@ namespace Server {
             isUse = true;
 
             socket.BeginReceive( readBuffer, 0, readBuffer.Length, SocketFlags.None, ReceiveCallBack, null );
+
+            NetworkPool.ClientCount++;
+            if( NetworkPool.ClientCount > 65535 ) {
+                NetworkPool.ClientCount = 1;
+            }
+            ID = NetworkPool.ClientCount;
+
+            NetworkManager.Instance.InitProtoClient( ID, this );
         }
 
         /// <summary>
@@ -70,34 +78,71 @@ namespace Server {
             if( !isUse ) {
                 return;
             }
-            //string address = GetRemoteAddress();
-            socket.Close();
-
-            //buffer.clear();
+            if( socket != null && socket.Connected ) {
+                try {
+                    socket.Shutdown( SocketShutdown.Both );
+                    socket.Close();
+                    socket = null;
+                }
+                catch {
+                    socket = null;
+                }
+            }
+            readBuffer = new byte[BUFFER_SIZE];
+            recvQueue.Clear();
             isUse = false;
         }
 
-        public void Send() {
-            try {
+        public byte[] Dispatch() {
+            lock( recvQueue ) {
+                if( recvQueue.Count == 0 )
+                    return null;
 
-                //socket.Send( null );
+                return recvQueue.Dequeue();
+            }
+        }
+
+        public void Destroy() {
+            Close();
+        }
+
+        public void Send( byte[] data, int length ) {
+            try {
+                int byteSent = socket.Send( data, 0, length, SocketFlags.None );
+                Debug.Assert( byteSent == length );
             }
             catch( Exception e ) {
                 Debug.Log( e.Message );
             }
         }
 
-        private void ReceiveCallBack( IAsyncResult ar ) {
+        private void ReceiveCallBack( IAsyncResult result ) {
             try {
-                int count = socket.EndReceive( ar );
-                if( count <= 0 ) {
+                int length = socket.EndReceive( result );
+                if( length <= 0 ) {
                     Debug.Log( GetRemoteAddress() + "断开连接" );
                     Close();
                     return;
                 }
 
-                //数据解析
+                var buffer = readBuffer;
+                int typeLength = buffer[0];
+                int dataLength = buffer[1];
 
+                if( dataLength > 0 ) {
+                    int blength = buffer.Length;
+                    byte[] data = new byte[blength];
+
+                    for( int i = 0; i < blength; i++ ) {
+                        data[i] = buffer[i];
+                    }
+
+                    lock( recvQueue ) {
+                        recvQueue.Enqueue( data );
+                    }
+                }
+
+                readBuffer = new byte[BUFFER_SIZE];
                 socket.BeginReceive( readBuffer, 0, readBuffer.Length, SocketFlags.None, ReceiveCallBack, null );
             }
             catch( Exception ) {
@@ -108,4 +153,5 @@ namespace Server {
         }
 
     }
+
 }

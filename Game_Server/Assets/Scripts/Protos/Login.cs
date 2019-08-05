@@ -22,12 +22,13 @@ namespace GameProto {
     static LoginReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "CgtMb2dpbi5wcm90bxIJZ2FtZVByb3RvIjAKBUxvZ2luEgoKAmlkGAEgASgJ",
-            "EgwKBHRpbWUYAiABKAMSDQoFdG9rZW4YAyABKAliBnByb3RvMw=="));
+            "CgtMb2dpbi5wcm90bxIJZ2FtZVByb3RvIjsKBUxvZ2luEgoKAmlkGAEgASgJ",
+            "EgkKAXIYAiABKAUSDAoEdGltZRgDIAEoAxINCgV0b2tlbhgEIAEoCWIGcHJv",
+            "dG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Login), global::GameProto.Login.Parser, new[]{ "Id", "Time", "Token" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Login), global::GameProto.Login.Parser, new[]{ "Id", "R", "Time", "Token" }, null, null, null)
           }));
     }
     #endregion
@@ -59,6 +60,7 @@ namespace GameProto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Login(Login other) : this() {
       id_ = other.id_;
+      r_ = other.r_;
       time_ = other.time_;
       token_ = other.token_;
     }
@@ -82,12 +84,23 @@ namespace GameProto {
       }
     }
 
-    /// <summary>Field number for the "time" field.</summary>
-    public const int TimeFieldNumber = 2;
-    private long time_;
+    /// <summary>Field number for the "r" field.</summary>
+    public const int RFieldNumber = 2;
+    private int r_;
     /// <summary>
     /// response
     /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int R {
+      get { return r_; }
+      set {
+        r_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "time" field.</summary>
+    public const int TimeFieldNumber = 3;
+    private long time_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public long Time {
       get { return time_; }
@@ -97,7 +110,7 @@ namespace GameProto {
     }
 
     /// <summary>Field number for the "token" field.</summary>
-    public const int TokenFieldNumber = 3;
+    public const int TokenFieldNumber = 4;
     private string token_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Token {
@@ -121,6 +134,7 @@ namespace GameProto {
         return true;
       }
       if (Id != other.Id) return false;
+      if (R != other.R) return false;
       if (Time != other.Time) return false;
       if (Token != other.Token) return false;
       return true;
@@ -130,6 +144,7 @@ namespace GameProto {
     public override int GetHashCode() {
       int hash = 1;
       if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (R != 0) hash ^= R.GetHashCode();
       if (Time != 0L) hash ^= Time.GetHashCode();
       if (Token.Length != 0) hash ^= Token.GetHashCode();
       return hash;
@@ -146,12 +161,16 @@ namespace GameProto {
         output.WriteRawTag(10);
         output.WriteString(Id);
       }
-      if (Time != 0L) {
+      if (R != 0) {
         output.WriteRawTag(16);
+        output.WriteInt32(R);
+      }
+      if (Time != 0L) {
+        output.WriteRawTag(24);
         output.WriteInt64(Time);
       }
       if (Token.Length != 0) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(34);
         output.WriteString(Token);
       }
     }
@@ -161,6 +180,9 @@ namespace GameProto {
       int size = 0;
       if (Id.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      }
+      if (R != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(R);
       }
       if (Time != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(Time);
@@ -178,6 +200,9 @@ namespace GameProto {
       }
       if (other.Id.Length != 0) {
         Id = other.Id;
+      }
+      if (other.R != 0) {
+        R = other.R;
       }
       if (other.Time != 0L) {
         Time = other.Time;
@@ -200,10 +225,14 @@ namespace GameProto {
             break;
           }
           case 16: {
+            R = input.ReadInt32();
+            break;
+          }
+          case 24: {
             Time = input.ReadInt64();
             break;
           }
-          case 26: {
+          case 34: {
             Token = input.ReadString();
             break;
           }

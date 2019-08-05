@@ -23,7 +23,7 @@ namespace Server {
         /// <param name="host"></param>
         /// <param name="por"></param>
         public void StartServer( string host, int port ) {
-            SessionPool.SetMaxSessionClient( maxSessionClient );
+            NetworkPool.SetMaxSessionClient( maxSessionClient );
             Watchdog = new Socket( AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp );
             IPAddress ipAddress = IPAddress.Parse( host );
             IPEndPoint ipEndPoint = new IPEndPoint( ipAddress, port );
@@ -41,7 +41,7 @@ namespace Server {
         private void AcceptCallBack( IAsyncResult ar ) {
             try {
                 Socket socket = Watchdog.EndAccept( ar );
-                SessionClient session = SessionPool.GetSessionClient();
+                NetworkTcpClient session = NetworkPool.GetSessionClient();
 
                 if( session == null ) {
                     socket.Close();

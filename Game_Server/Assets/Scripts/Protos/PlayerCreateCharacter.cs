@@ -22,14 +22,13 @@ namespace GameProto {
     static PlayerCreateCharacterReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Ch1QbGF5ZXJfQ3JlYXRlX0NoYXJhY3Rlci5wcm90bxIJZ2FtZVByb3RvGg9D",
-            "aGFyYWN0ZXIucHJvdG8iUAoXUGxheWVyX0NyZWF0ZV9DaGFyYWN0ZXISDAoE",
-            "bmFtZRgBIAEoCRInCgljaGFyYWN0ZXIYAiABKAsyFC5nYW1lUHJvdG8uQ2hh",
-            "cmFjdGVyYgZwcm90bzM="));
+            "Ch1QbGF5ZXJfQ3JlYXRlX0NoYXJhY3Rlci5wcm90bxIJZ2FtZVByb3RvIjIK",
+            "F1BsYXllcl9DcmVhdGVfQ2hhcmFjdGVyEgwKBG5hbWUYASABKAkSCQoBchgC",
+            "IAEoBWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::GameProto.CharacterReflection.Descriptor, },
+          new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Player_Create_Character), global::GameProto.Player_Create_Character.Parser, new[]{ "Name", "Character" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Player_Create_Character), global::GameProto.Player_Create_Character.Parser, new[]{ "Name", "R" }, null, null, null)
           }));
     }
     #endregion
@@ -61,7 +60,7 @@ namespace GameProto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Player_Create_Character(Player_Create_Character other) : this() {
       name_ = other.name_;
-      Character = other.character_ != null ? other.Character.Clone() : null;
+      r_ = other.r_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -83,17 +82,18 @@ namespace GameProto {
       }
     }
 
-    /// <summary>Field number for the "character" field.</summary>
-    public const int CharacterFieldNumber = 2;
-    private global::GameProto.Character character_;
+    /// <summary>Field number for the "r" field.</summary>
+    public const int RFieldNumber = 2;
+    private int r_;
     /// <summary>
     /// response
+    ///  r=1,有重名的角色
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::GameProto.Character Character {
-      get { return character_; }
+    public int R {
+      get { return r_; }
       set {
-        character_ = value;
+        r_ = value;
       }
     }
 
@@ -111,7 +111,7 @@ namespace GameProto {
         return true;
       }
       if (Name != other.Name) return false;
-      if (!object.Equals(Character, other.Character)) return false;
+      if (R != other.R) return false;
       return true;
     }
 
@@ -119,7 +119,7 @@ namespace GameProto {
     public override int GetHashCode() {
       int hash = 1;
       if (Name.Length != 0) hash ^= Name.GetHashCode();
-      if (character_ != null) hash ^= Character.GetHashCode();
+      if (R != 0) hash ^= R.GetHashCode();
       return hash;
     }
 
@@ -134,9 +134,9 @@ namespace GameProto {
         output.WriteRawTag(10);
         output.WriteString(Name);
       }
-      if (character_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Character);
+      if (R != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(R);
       }
     }
 
@@ -146,8 +146,8 @@ namespace GameProto {
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
-      if (character_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Character);
+      if (R != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(R);
       }
       return size;
     }
@@ -160,11 +160,8 @@ namespace GameProto {
       if (other.Name.Length != 0) {
         Name = other.Name;
       }
-      if (other.character_ != null) {
-        if (character_ == null) {
-          character_ = new global::GameProto.Character();
-        }
-        Character.MergeFrom(other.Character);
+      if (other.R != 0) {
+        R = other.R;
       }
     }
 
@@ -180,11 +177,8 @@ namespace GameProto {
             Name = input.ReadString();
             break;
           }
-          case 18: {
-            if (character_ == null) {
-              character_ = new global::GameProto.Character();
-            }
-            input.ReadMessage(character_);
+          case 16: {
+            R = input.ReadInt32();
             break;
           }
         }

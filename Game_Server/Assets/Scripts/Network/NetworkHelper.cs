@@ -2,14 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ServerHelper {
-
-
-
-
-
-
-
+public static class NetworkHelper {
 
     /// <summary>
     /// 解包
@@ -28,6 +21,15 @@ public static class ServerHelper {
 
         return new byte[1];
     }
+
+
+
+
+
+
+
+
+
 
 
 }

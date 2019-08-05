@@ -23,12 +23,13 @@ namespace GameProto {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChVHbG9iYWxfVXNlX0l0ZW0ucHJvdG8SCWdhbWVQcm90bxoKSXRlbS5wcm90",
-            "byJMCg9HbG9iYWxfVXNlX0l0ZW0SCgoCaWQYASABKAkSDQoFY291bnQYAiAB",
-            "KAUSHgoFaXRlbXMYAyADKAsyDy5nYW1lUHJvdG8uSXRlbWIGcHJvdG8z"));
+            "byJXCg9HbG9iYWxfVXNlX0l0ZW0SCgoCaWQYASABKAkSDQoFY291bnQYAiAB",
+            "KAUSCQoBchgDIAEoBRIeCgVpdGVtcxgEIAMoCzIPLmdhbWVQcm90by5JdGVt",
+            "YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::GameProto.ItemReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Global_Use_Item), global::GameProto.Global_Use_Item.Parser, new[]{ "Id", "Count", "Items" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Global_Use_Item), global::GameProto.Global_Use_Item.Parser, new[]{ "Id", "Count", "R", "Items" }, null, null, null)
           }));
     }
     #endregion
@@ -61,6 +62,7 @@ namespace GameProto {
     public Global_Use_Item(Global_Use_Item other) : this() {
       id_ = other.id_;
       count_ = other.count_;
+      r_ = other.r_;
       items_ = other.items_.Clone();
     }
 
@@ -94,14 +96,26 @@ namespace GameProto {
       }
     }
 
-    /// <summary>Field number for the "items" field.</summary>
-    public const int ItemsFieldNumber = 3;
-    private static readonly pb::FieldCodec<global::GameProto.Item> _repeated_items_codec
-        = pb::FieldCodec.ForMessage(26, global::GameProto.Item.Parser);
-    private readonly pbc::RepeatedField<global::GameProto.Item> items_ = new pbc::RepeatedField<global::GameProto.Item>();
+    /// <summary>Field number for the "r" field.</summary>
+    public const int RFieldNumber = 3;
+    private int r_;
     /// <summary>
     /// response
+    ///  r=1,物品数量不足
     /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int R {
+      get { return r_; }
+      set {
+        r_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "items" field.</summary>
+    public const int ItemsFieldNumber = 4;
+    private static readonly pb::FieldCodec<global::GameProto.Item> _repeated_items_codec
+        = pb::FieldCodec.ForMessage(34, global::GameProto.Item.Parser);
+    private readonly pbc::RepeatedField<global::GameProto.Item> items_ = new pbc::RepeatedField<global::GameProto.Item>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::GameProto.Item> Items {
       get { return items_; }
@@ -122,6 +136,7 @@ namespace GameProto {
       }
       if (Id != other.Id) return false;
       if (Count != other.Count) return false;
+      if (R != other.R) return false;
       if(!items_.Equals(other.items_)) return false;
       return true;
     }
@@ -131,6 +146,7 @@ namespace GameProto {
       int hash = 1;
       if (Id.Length != 0) hash ^= Id.GetHashCode();
       if (Count != 0) hash ^= Count.GetHashCode();
+      if (R != 0) hash ^= R.GetHashCode();
       hash ^= items_.GetHashCode();
       return hash;
     }
@@ -150,6 +166,10 @@ namespace GameProto {
         output.WriteRawTag(16);
         output.WriteInt32(Count);
       }
+      if (R != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(R);
+      }
       items_.WriteTo(output, _repeated_items_codec);
     }
 
@@ -161,6 +181,9 @@ namespace GameProto {
       }
       if (Count != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Count);
+      }
+      if (R != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(R);
       }
       size += items_.CalculateSize(_repeated_items_codec);
       return size;
@@ -176,6 +199,9 @@ namespace GameProto {
       }
       if (other.Count != 0) {
         Count = other.Count;
+      }
+      if (other.R != 0) {
+        R = other.R;
       }
       items_.Add(other.items_);
     }
@@ -196,7 +222,11 @@ namespace GameProto {
             Count = input.ReadInt32();
             break;
           }
-          case 26: {
+          case 24: {
+            R = input.ReadInt32();
+            break;
+          }
+          case 34: {
             items_.AddEntriesFrom(input, _repeated_items_codec);
             break;
           }

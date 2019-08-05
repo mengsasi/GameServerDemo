@@ -93,7 +93,12 @@ namespace GameDatabase {
         /// <param name="predicate"></param>
         /// <returns></returns>
         public static T Get<T>( Expression<Func<T, bool>> predicate ) where T : new() {
-            return Connection.Get<T>( predicate );
+            try {
+                return Connection.Get<T>( predicate );
+            }
+            catch {
+                return default;
+            }
         }
 
         /// <summary>
@@ -106,7 +111,7 @@ namespace GameDatabase {
         public static T Get<T>( Expression<Func<T, bool>> predicate1, Expression<Func<T, bool>> predicate2 ) where T : new() {
             TableQuery<T> table = Connection.Table<T>().Where( predicate1 );
             if( table != null ) {
-                return table.Where( predicate2 ).First();
+                return table.Where( predicate2 ).FirstOrDefault();
             }
             return default( T );
         }

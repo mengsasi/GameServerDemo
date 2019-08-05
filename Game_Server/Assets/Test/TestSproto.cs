@@ -8,45 +8,45 @@ using UnityEngine;
 
 public class TestSproto : MonoBehaviour {
 
+
     void Start() {
 
-        Character character = new Character();
-        character.Id = "1";
-        character.Name = "aaa";
+        //Character character = new Character();
+        //character.Id = "1";
+        //character.Name = "aaa";
 
-        byte[] datas = character.ToByteArray();
+        //byte[] datas = character.ToByteArray();
 
         //IMessage imCharacter = new Character();
         //Character ch1 = new Character();
         //ch1 = (Character)imCharacter.Descriptor.Parser.ParseFrom( datas );
 
 
-        string name = "Global_Use_Item";
+        //string name = "Global_Use_Item";
 
-        byte[] ddd = System.Text.Encoding.UTF8.GetBytes( name );
-
-
-        string nn = System.Text.Encoding.UTF8.GetString( ddd );
-
-        Debug.Log( nn );
+        //byte[] ddd = System.Text.Encoding.UTF8.GetBytes( name );
 
 
-        string db_func = "global_use_item";
+        //string nn = System.Text.Encoding.UTF8.GetString( ddd );
+
+        //Debug.Log( nn );
 
 
-        var indexOf_ = db_func.IndexOf( '_' );
-        string db = db_func.Substring( 0, indexOf_ );
-        string func = db_func.Substring( indexOf_ + 1 );
+        //string db_func = "global_use_item";
 
-        Debug.Log( db );
-        Debug.Log( func );
+
+        //var indexOf_ = db_func.IndexOf( '_' );
+        //string db = db_func.Substring( 0, indexOf_ );
+        //string func = db_func.Substring( indexOf_ + 1 );
+
+        //Debug.Log( db );
+        //Debug.Log( func );
 
 
 
 
         //Debug.Log( ch1.Id );
         //Debug.Log( ch1.Name );
-
 
 
 
@@ -81,11 +81,12 @@ public class TestSproto : MonoBehaviour {
 
 
 
+
+
+
+        var data = Database.Get<CharacterData>( x => x.Id == "111" );
+        Debug.Log( data == null );
         Database.Close();
-
-
-
-
 
 
 
