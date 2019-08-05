@@ -4,10 +4,9 @@ package gameProto;
 
 message Login {
 	//request
-	string id = 1;
+	string token = 1;
 	
 	//response
 	int32 r = 2;
 	int64 time = 3;
-	string token = 4;
 }
