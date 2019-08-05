@@ -1,16 +1,9 @@
-﻿using GameProto;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Server {
 
     public class NetworkManager : Singleton<NetworkManager> {
-
-        NetworkManager() {
-            InitTag();
-        }
 
         private Dictionary<long, NetworkProtoClient> clientDict = new Dictionary<long, NetworkProtoClient>();
 
@@ -27,22 +20,6 @@ namespace Server {
             if( clientDict.ContainsKey( id ) ) {
                 clientDict.Remove( id );
             }
-        }
-
-
-
-
-
-
-
-
-
-
-
-        public static Dictionary<Type, int> ProtoTags = new Dictionary<Type, int>();
-
-        public static void InitTag() {
-            ProtoTags.Add( typeof( Sync_Character ), 1000 );
         }
 
 

@@ -89,12 +89,14 @@ public class PlayerManager {
     public void Login_Process( PlayerInfo player, long session, byte[] data ) {
         Login login = new Login();
         try {
-            IMessage imPack = new Login();
-            Login pkg = new Login();
-            pkg = (Login)imPack.Descriptor.Parser.ParseFrom( data );
+            Login pkg = Utils.ParseByte<Login>( data );
 
-            CharacterData existData = Database.Get<CharacterData>( x => x.Id == pkg.Id );
-            var db = PlayerDb.New( pkg.Id );
+            //有redis服务器，根据pkg的token去找保存的http登陆的账号数据
+            //这里省略
+            var id = pkg.Token.Substring( 0, pkg.Token.Length - 3 );
+
+            CharacterData existData = Database.Get<CharacterData>( x => x.Id == id );
+            var db = PlayerDb.New( id );
             player.Instance = db;
 
             if( existData == null ) {
@@ -105,7 +107,6 @@ public class PlayerManager {
             }
             login.R = 0;
             login.Time = Utils.GetTimeStamp();
-            login.Token = pkg.Id + "lls";
         }
         catch {
             login.R = 1;
@@ -119,9 +120,7 @@ public class PlayerManager {
     public void Create_Character_Process( PlayerInfo player, long session, byte[] data ) {
         Player_Create_Character pcc = new Player_Create_Character();
         try {
-            IMessage imPack = new Login();
-            Player_Create_Character pkg = new Player_Create_Character();
-            pkg = (Player_Create_Character)imPack.Descriptor.Parser.ParseFrom( data );
+            Player_Create_Character pkg = Utils.ParseByte<Player_Create_Character>( data );
 
             var db = player.Instance;
             //创建角色

@@ -22,13 +22,12 @@ namespace GameProto {
     static LoginReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "CgtMb2dpbi5wcm90bxIJZ2FtZVByb3RvIjsKBUxvZ2luEgoKAmlkGAEgASgJ",
-            "EgkKAXIYAiABKAUSDAoEdGltZRgDIAEoAxINCgV0b2tlbhgEIAEoCWIGcHJv",
-            "dG8z"));
+            "CgtMb2dpbi5wcm90bxIJZ2FtZVByb3RvIi8KBUxvZ2luEg0KBXRva2VuGAEg",
+            "ASgJEgkKAXIYAiABKAUSDAoEdGltZRgDIAEoA2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Login), global::GameProto.Login.Parser, new[]{ "Id", "R", "Time", "Token" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Login), global::GameProto.Login.Parser, new[]{ "Token", "R", "Time" }, null, null, null)
           }));
     }
     #endregion
@@ -59,10 +58,9 @@ namespace GameProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Login(Login other) : this() {
-      id_ = other.id_;
+      token_ = other.token_;
       r_ = other.r_;
       time_ = other.time_;
-      token_ = other.token_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -70,17 +68,17 @@ namespace GameProto {
       return new Login(this);
     }
 
-    /// <summary>Field number for the "id" field.</summary>
-    public const int IdFieldNumber = 1;
-    private string id_ = "";
+    /// <summary>Field number for the "token" field.</summary>
+    public const int TokenFieldNumber = 1;
+    private string token_ = "";
     /// <summary>
     /// request
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Id {
-      get { return id_; }
+    public string Token {
+      get { return token_; }
       set {
-        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        token_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -109,17 +107,6 @@ namespace GameProto {
       }
     }
 
-    /// <summary>Field number for the "token" field.</summary>
-    public const int TokenFieldNumber = 4;
-    private string token_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Token {
-      get { return token_; }
-      set {
-        token_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as Login);
@@ -133,20 +120,18 @@ namespace GameProto {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Id != other.Id) return false;
+      if (Token != other.Token) return false;
       if (R != other.R) return false;
       if (Time != other.Time) return false;
-      if (Token != other.Token) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (Token.Length != 0) hash ^= Token.GetHashCode();
       if (R != 0) hash ^= R.GetHashCode();
       if (Time != 0L) hash ^= Time.GetHashCode();
-      if (Token.Length != 0) hash ^= Token.GetHashCode();
       return hash;
     }
 
@@ -157,9 +142,9 @@ namespace GameProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Id.Length != 0) {
+      if (Token.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(Id);
+        output.WriteString(Token);
       }
       if (R != 0) {
         output.WriteRawTag(16);
@@ -169,26 +154,19 @@ namespace GameProto {
         output.WriteRawTag(24);
         output.WriteInt64(Time);
       }
-      if (Token.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(Token);
-      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (Id.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      if (Token.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Token);
       }
       if (R != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(R);
       }
       if (Time != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(Time);
-      }
-      if (Token.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Token);
       }
       return size;
     }
@@ -198,17 +176,14 @@ namespace GameProto {
       if (other == null) {
         return;
       }
-      if (other.Id.Length != 0) {
-        Id = other.Id;
+      if (other.Token.Length != 0) {
+        Token = other.Token;
       }
       if (other.R != 0) {
         R = other.R;
       }
       if (other.Time != 0L) {
         Time = other.Time;
-      }
-      if (other.Token.Length != 0) {
-        Token = other.Token;
       }
     }
 
@@ -221,7 +196,7 @@ namespace GameProto {
             input.SkipLastField();
             break;
           case 10: {
-            Id = input.ReadString();
+            Token = input.ReadString();
             break;
           }
           case 16: {
@@ -230,10 +205,6 @@ namespace GameProto {
           }
           case 24: {
             Time = input.ReadInt64();
-            break;
-          }
-          case 34: {
-            Token = input.ReadString();
             break;
           }
         }

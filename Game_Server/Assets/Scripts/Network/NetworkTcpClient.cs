@@ -37,6 +37,7 @@ namespace Server {
         /// <param name="socket"></param>
         /// <param name="receiveTimeout"></param>
         public void Init( Socket socket, int receiveTimeout = 1000 ) {
+            readBuffer = new byte[BUFFER_SIZE];
             this.socket = socket;
             this.socket.ReceiveTimeout = receiveTimeout;
             isUse = true;

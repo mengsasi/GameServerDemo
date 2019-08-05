@@ -23,16 +23,18 @@ namespace Server {
             //服务器主动发的，是-1
             //客户端发过来，有session，返回的根据客户端的session值
             long sess = session;
+            var type = typeof( T ).ToString();
             if( session == -1 ) {
                 Session = Session + 1;
                 if( Session > 65535 ) {
                     Session = 0;
                 }
                 sess = Session;
+                type = NetworkUtils.Instance.ProtoTags[typeof( T )];
             }
 
             Package_Head pkg = new Package_Head {
-                Type = typeof( T ).ToString(),
+                Type = type,
                 Session = sess
             };
 
@@ -81,9 +83,7 @@ namespace Server {
                     data[index] = datas[i];
                 }
 
-                IMessage imPackage = new Package_Head();
-                Package_Head pkg = new Package_Head();
-                pkg = (Package_Head)imPackage.Descriptor.Parser.ParseFrom( head );
+                Package_Head pkg = Utils.ParseByte<Package_Head>( head );
 
                 PlayerManager.Instance.On_Request( client.ID, pkg, data );
             }
