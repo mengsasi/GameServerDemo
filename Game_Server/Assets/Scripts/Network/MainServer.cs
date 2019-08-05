@@ -1,5 +1,4 @@
-﻿using Core;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
@@ -31,7 +30,6 @@ namespace Server {
             Watchdog.Bind( ipEndPoint );
             Watchdog.Listen( maxSessionClient );
             Watchdog.BeginAccept( AcceptCallBack, null );
-
             Debug.LogFormat( "服务器启动成功! host:{0} port:{1}", host, port );
         }
 
@@ -49,11 +47,9 @@ namespace Server {
                     Debug.Log( "连接已满！" );
                 }
                 else {
-                    UnityMainThreadDispatcher.Instance.Enqueue( () => {
-                        session.Init( socket );
-                        string address = session.GetRemoteAddress();
-                        Debug.Log( "客户端连接 " + address );
-                    } );
+                    session.Init( socket );
+                    string address = session.GetRemoteAddress();
+                    Debug.Log( "客户端连接 " + address );
                 }
 
                 Watchdog.BeginAccept( AcceptCallBack, null );
