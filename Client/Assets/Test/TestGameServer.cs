@@ -29,8 +29,8 @@ public class TestGameServer : MonoBehaviour {
     }
 
     void Start() {
-        NetworkManager.TCPHostUrl = "http://127.0.0.1";
-        NetworkManager.TCPPort = 22334;
+        NetworkManager.TCPHostUrl = "127.0.0.1";
+        NetworkManager.TCPPort = 50001;
 
         NetworkManager.Instance.StartConnection();
     }
