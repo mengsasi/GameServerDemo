@@ -2,7 +2,9 @@
 using GameProto;
 using Google.Protobuf;
 using Server;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace Logic {
@@ -58,42 +60,50 @@ namespace Logic {
                 return;
             }
             var client = player.Client;
+            var headType = head.Type;
+            byte[] rets = null;
 
-            if( head.Type == Utils.GetProtpType<Heartbeat>() ) {
-
-            }
-            else if( head.Type == Utils.GetProtpType<Login>() ) {
-                if( player.Status == "login" ) {
-                    Login_Process( player, head.Session, data );
+            if( player.Status == "login" ) {
+                if( headType == Utils.GetProtpType<Login>() ) {
+                    rets = Login_Process( player, head.Session, data );
                 }
                 else {
-                    //流程错误
                     Login login = new Login {
                         R = 2
                     };
-                    byte[] rets = login.ToByteArray();
-                    client.DoRequest<Login>( rets, head.Session );
+                    rets = login.ToByteArray();
                 }
             }
-            else if( head.Type == Utils.GetProtpType<Player_Create_Character>() ) {
-                if( player.Status == "create character" ) {
-                    Create_Character_Process( player, head.Session, data );
+            else if( player.Status == "create character" ) {
+                if( headType == Utils.GetProtpType<Player_Create_Character>() ) {
+                    rets = Create_Character_Process( player, head.Session, data );
                 }
                 else {
                     //流程错误
                     Player_Create_Character pcc = new Player_Create_Character {
                         R = 2
                     };
-                    byte[] rets = pcc.ToByteArray();
-                    client.DoRequest<Player_Create_Character>( rets, head.Session );
+                    rets = pcc.ToByteArray();
                 }
             }
             else {
-                Dispose( player, head, data );
+                rets = Dispose( player, head, data );
+            }
+
+            if( rets != null ) {
+                MethodInfo doRequestMethod = player.Client.GetType().GetMethod( "DoRequest" );
+                Type tt = Type.GetType( headType );
+                doRequestMethod = doRequestMethod.MakeGenericMethod( tt );
+                var arguments = new object[]
+                {
+                    rets,
+                    head.Session
+                };
+                doRequestMethod.Invoke( player.Client, arguments );
             }
         }
 
-        public void Login_Process( PlayerInfo player, long session, byte[] data ) {
+        public byte[] Login_Process( PlayerInfo player, long session, byte[] data ) {
             Login login = new Login();
             try {
                 Login pkg = Utils.ParseByte<Login>( data );
@@ -118,13 +128,13 @@ namespace Logic {
             catch {
                 login.R = 2;
             }
-            byte[] rets = login.ToByteArray();
-            player.Client.DoRequest<Login>( rets, session );
-
+            //byte[] rets = login.ToByteArray();
+            //player.Client.DoRequest<Login>( rets, session );
             CheckInitPlayer( player );
+            return login.ToByteArray();
         }
 
-        public void Create_Character_Process( PlayerInfo player, long session, byte[] data ) {
+        public byte[] Create_Character_Process( PlayerInfo player, long session, byte[] data ) {
             Player_Create_Character pcc = new Player_Create_Character();
             try {
                 Player_Create_Character pkg = Utils.ParseByte<Player_Create_Character>( data );
@@ -140,22 +150,31 @@ namespace Logic {
             catch {
                 pcc.R = 2;
             }
-            byte[] rets = pcc.ToByteArray();
-            player.Client.DoRequest<Player_Create_Character>( rets, session );
-
+            //byte[] rets = pcc.ToByteArray();
+            //player.Client.DoRequest<Player_Create_Character>( rets, session );
             CheckInitPlayer( player );
+            return pcc.ToByteArray();
         }
 
         private void CheckInitPlayer( PlayerInfo player ) {
             //
             if( player.Status == "in game" ) {
                 //玩家初始化
+
+
+
             }
         }
 
-        public void Dispose( PlayerInfo player, Package_Head head, byte[] data ) {
+        public byte[] Dispose( PlayerInfo player, Package_Head head, byte[] data ) {
+            if( head.Type == Utils.GetProtpType<Heartbeat>() ) {
+                if( player.Instance != null ) {
+                    player.Instance.Heartbeat();
+                }
+                return null;
+            }
 
-
+            return new byte[0];
         }
 
         public void Send_Request<T>( long id, byte[] data ) {

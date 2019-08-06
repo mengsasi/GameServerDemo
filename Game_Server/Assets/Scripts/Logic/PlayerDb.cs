@@ -45,11 +45,18 @@ namespace Logic {
         }
 
         public int Upgrade_Level( Player_Upgrade_Level pkg ) {
+            if( Data != null ) {
 
+
+            }
 
             return 1;
         }
 
+        public void Heartbeat() {
+
+
+        }
 
     }
 }

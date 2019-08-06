@@ -291,7 +291,7 @@ namespace Game.Network {
                         reconnectRequests.RemoveAt( 0 );
                         currentReconnectRequest.RSession = ReconnectSession;
 
-                        MethodInfo doRequestMethod = tcpClient.GetType().GetMethod( "DoRequest", BindingFlags.Public );
+                        MethodInfo doRequestMethod = tcpClient.GetType().GetMethod( "DoRequest" );//BindingFlags.Public
                         doRequestMethod = doRequestMethod.MakeGenericMethod( req.TemplateType );
 
                         Action<byte[]> callback = ( info ) => {
