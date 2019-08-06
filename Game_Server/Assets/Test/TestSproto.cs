@@ -1,4 +1,5 @@
-﻿using GameDatabase;
+﻿using Config;
+using GameDatabase;
 using GameProto;
 using Google.Protobuf;
 using LitJson;
@@ -95,15 +96,19 @@ public class TestSproto : MonoBehaviour {
 
 
 
-        JsonData heros = new JsonData();
-        for( int i = 0; i < 3; i++ ) {
-            JsonData hero = new JsonData {
-                ["Id"] = ( i + 1 ).ToString(),
-                ["Level"] = 1
-            };
-            heros.Add( hero );
-        }
-        Debug.Log( heros.ToJson() );
+        //JsonData heros = new JsonData();
+        //for( int i = 0; i < 3; i++ ) {
+        //    JsonData hero = new JsonData {
+        //        ["Id"] = ( i + 1 ).ToString(),
+        //        ["Level"] = 1
+        //    };
+        //    heros.Add( hero );
+        //}
+        //Debug.Log( heros.ToJson() );
+
+
+        var conf = LevelConfigs.Instance.GetConf( 1 );
+        Debug.Log( conf.Level );
 
 
 

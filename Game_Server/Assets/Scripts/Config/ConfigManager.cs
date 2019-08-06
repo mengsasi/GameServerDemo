@@ -13,22 +13,38 @@ namespace Config {
             }
         }
 
-        private Dictionary<string, JsonData> configDic = new Dictionary<string, JsonData>();
+        private Dictionary<string, IList<JsonData>> configDic = new Dictionary<string, IList<JsonData>>();
 
-        JsonData LoadArrConf( string name ) {
+        IList<JsonData> LoadArrConf( string name ) {
             var confText = Resources.Load<TextAsset>( name );
-            JsonData obj = JsonMapper.ToObject( confText.text );
+            IList<JsonData> obj = JsonMapper.ToObject( confText.text ).ValueAsArray();
             configDic.Add( name, obj );
             return obj;
         }
 
-        public JsonData GetJsonDatas( string name ) {
-            JsonData data;
+        ConfigManager() {
+            var confText = Resources.Load<TextAsset>( "allConfig" );
+            SetConfigData( JsonMapper.ToObject( confText.text ) );
+        }
+
+        public IList<JsonData> GetJsonDatas( string name ) {
+            IList<JsonData> data;
             if( configDic.TryGetValue( name, out data ) == false ) {
-                data = LoadArrConf( name );
-                configDic.Add( name, data );
+                if( configData != null && configData[name] != null ) {
+                    data = configData[name].ValueAsArray();
+                    configDic.Add( name, data );
+                }
+                else {
+                    Debug.Log( "不存在配置 " + name );
+                }
             }
             return data;
+        }
+
+        private JsonData configData;
+
+        public void SetConfigData( JsonData data ) {
+            configData = data;
         }
 
     }

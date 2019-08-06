@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using LitJson;
 using System.Collections.Generic;
 
 //升级配置
@@ -19,17 +19,16 @@ public class LevelConfigs {
     private Dictionary<int, LevelConfig> confDict = new Dictionary<int, LevelConfig>();
 
     LevelConfigs() {
-        var data = ConfigManager.Instance.GetJsonDatas( "Level.json" );
-        IDictionary confs = data as IDictionary;
-        foreach( var item in confs.Keys ) {
-            var token = data[item.ToString()];
+        var data = ConfigManager.Instance.GetJsonDatas( "Level" );
+        foreach( var item in data ) {
             LevelConfig conf = new LevelConfig();
-            var level = token["_id"].ValueAsString();
+            var level = item["_id"].ValueAsString();
             conf.Level = int.Parse( level );
 
-            var cost = token["cost"];
-            var costid = cost["id"].ValueAsString();
-            var costcount = cost["count"].ValueAsInt();
+            string cost = item["cost"].ValueAsString();
+            JsonData costJson = JsonMapper.ToObject( cost );
+            var costid = costJson["id"].ValueAsString();
+            var costcount = costJson["count"].ValueAsInt();
             var itemdata = new ItemData() {
                 Id = costid,
                 Count = costcount
