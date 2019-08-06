@@ -90,6 +90,7 @@ namespace GameProto {
     private int r_;
     /// <summary>
     /// response
+    ///  r=2,物品不足 r=3,等级已达上限
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int R {

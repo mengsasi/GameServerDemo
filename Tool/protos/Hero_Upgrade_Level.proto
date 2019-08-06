@@ -9,6 +9,7 @@ message Hero_Upgrade_Level {
 	string id = 1;
 	
 	//response
+	// r=2,物品不足 r=3,等级已达上限
 	int32 r = 2;
 	int32 level = 3;
 	repeated gameProto.Item items = 4;
