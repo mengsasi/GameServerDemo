@@ -8,6 +8,7 @@ public class GameLogin {
     private static readonly string Login_Path = "/login";
     private static readonly string RefreshToken_Path = "/refreshtoken";
     private static readonly string Config_Version_Path = "/config-version";
+    private static readonly string All_Config = "/all-config";
 
     public static int Version = -1;
 
@@ -17,7 +18,23 @@ public class GameLogin {
             if( status == HttpManager.HttpResponseStatus.OK ) {
                 try {
                     Version = data["version"].ValueAsInt();
+                }
+                catch {
 
+                }
+            }
+            if( callback != null ) {
+                callback( status, data );
+            }
+        } );
+    }
+
+    //下载配置
+    public static void GetConfigs( Action<HttpManager.HttpResponseStatus, JsonData> callback ) {
+        HttpManager.Instance.GetJson( Server_URL + All_Config + "?v=" + Version, ( status, data ) => {
+            if( status == HttpManager.HttpResponseStatus.OK ) {
+                try {
+                    ConfigManager.Instance.SetConfigData( data );
                 }
                 catch {
 
@@ -74,6 +91,5 @@ public class GameLogin {
             }
         } );
     }
-
 
 }

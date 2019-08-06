@@ -1,7 +1,6 @@
 ﻿using Game.Network;
 using GameProto;
 using Google.Protobuf;
-using LitJson;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +10,6 @@ public class TestGameServer : MonoBehaviour {
 
     public Button BtnStartTcp;//开启tcp连接
 
-    public InputField InputAccount;//账号
     public Button BtnLoginTcp;//登陆tcp
 
     public InputField InputName;//角色名字
@@ -22,6 +20,12 @@ public class TestGameServer : MonoBehaviour {
     public Button BtnHeroLevelUp;//英雄升级
 
     public Button BtnUseItem;//使用物品
+
+    //http登陆成功后，点击tcp登陆
+
+    //登陆成功，看是否有角色，没有角色创建角色，有角色进入游戏
+
+    //发其他包
 
     void Awake() {
         BtnStartTcp.onClick.AddListener( TcpConnect );
@@ -40,14 +44,6 @@ public class TestGameServer : MonoBehaviour {
     }
 
     private void LoginTcp() {
-        if( string.IsNullOrEmpty( InputAccount.text ) ) {
-            return;
-        }
-        JsonData data = new JsonData();
-        data["token"] = InputAccount.text + "lls";
-
-        NetworkManager.LoginToken = data;
-
         NetworkManager.Instance.OnLoginFinish += ( login, success ) => {
             if( success ) {
                 Debug.Log( "login success " + login.R );
