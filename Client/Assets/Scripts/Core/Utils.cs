@@ -41,4 +41,8 @@ public static class Utils {
         return pkg;
     }
 
+    public static string GetProtpType<T>() {
+        return typeof( T ).ToString();
+    }
+
 }

@@ -3,5 +3,6 @@ syntax = "proto3";
 package gameProto;
 
 message Heartbeat {
-	
+	//request
+	int32 r = 1;
 }

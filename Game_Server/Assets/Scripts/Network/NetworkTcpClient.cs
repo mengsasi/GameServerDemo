@@ -131,7 +131,7 @@ namespace Server {
                 int dataLength = buffer[1];
 
                 if( dataLength > 0 ) {
-                    int blength = buffer.Length;
+                    int blength = typeLength + dataLength + 2;
                     byte[] data = new byte[blength];
 
                     for( int i = 0; i < blength; i++ ) {

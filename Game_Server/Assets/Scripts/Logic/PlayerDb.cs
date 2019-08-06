@@ -37,15 +37,12 @@ public class PlayerDb {
         if( existName == null ) {
             Data.Name = pkg.Name;
             Database.Update( data );
-            return 0;
+            return 1;
         }
-        return 1;
+        return 3;//有重名
     }
 
     public int Upgrade_Level( Player_Upgrade_Level pkg ) {
-
-
-
 
 
         return 1;

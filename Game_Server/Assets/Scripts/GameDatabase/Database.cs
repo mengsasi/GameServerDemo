@@ -93,12 +93,7 @@ namespace GameDatabase {
         /// <param name="predicate"></param>
         /// <returns></returns>
         public static T Get<T>( Expression<Func<T, bool>> predicate ) where T : new() {
-            try {
-                return Connection.Get<T>( predicate );
-            }
-            catch {
-                return default;
-            }
+            return Connection.Get<T>( predicate );
         }
 
         /// <summary>

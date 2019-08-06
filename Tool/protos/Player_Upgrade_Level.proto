@@ -8,7 +8,7 @@ message Player_Upgrade_Level {
 	//request
 	
 	//response
-	// r=1,物品不足 r=2,等级已达上限
+	// r=2,物品不足 r=3,等级已达上限
 	int32 r = 1;
 	int32 level = 2;
 	repeated gameProto.Item items = 3;

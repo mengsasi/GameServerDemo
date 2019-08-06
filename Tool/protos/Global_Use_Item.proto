@@ -10,7 +10,7 @@ message Global_Use_Item {
 	int32 count = 2;
 	
 	//response
-	// r=1,物品数量不足
+	// r=2,物品数量不足
 	int32 r = 3;
 	repeated gameProto.Item items = 4;
 }

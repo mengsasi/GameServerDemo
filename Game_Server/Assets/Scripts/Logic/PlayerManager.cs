@@ -49,18 +49,25 @@ public class PlayerManager {
         players.Add( id, info );
     }
 
+    //错误值r=2，是流程错误
     public void On_Request( long id, Package_Head head, byte[] data ) {
         var player = GetPlayer( id );
         if( player == null ) {
             return;
         }
         var client = player.Client;
-        if( player.Status == "login" ) {
-            if( head.Type == "login" ) {
+
+        Debug.Log( "request " + head.Type );
+
+        if( head.Type == Utils.GetProtpType<Heartbeat>() ) {
+
+        }
+        else if( head.Type == Utils.GetProtpType<Login>() ) {
+            if( player.Status == "login" ) {
                 Login_Process( player, head.Session, data );
             }
             else {
-                //状态不正确
+                //流程错误
                 Login login = new Login {
                     R = 1
                 };
@@ -68,12 +75,12 @@ public class PlayerManager {
                 client.DoRequest<Login>( rets, head.Session );
             }
         }
-        else if( player.Status == "create character" ) {
-            if( head.Type == "create_character" ) {
+        else if( head.Type == Utils.GetProtpType<Player_Create_Character>() ) {
+            if( player.Status == "create character" ) {
                 Create_Character_Process( player, head.Session, data );
             }
             else {
-                //状态不正确
+                //流程错误
                 Player_Create_Character pcc = new Player_Create_Character {
                     R = 2
                 };
@@ -99,17 +106,17 @@ public class PlayerManager {
             var db = PlayerDb.New( id );
             player.Instance = db;
 
-            if( existData == null ) {
+            if( existData == null || string.IsNullOrEmpty( existData.Name ) ) {
                 player.Status = "create character";
             }
             else {
                 player.Status = "in game";
             }
-            login.R = 0;
+            login.R = 1;
             login.Time = Utils.GetTimeStamp();
         }
         catch {
-            login.R = 1;
+            login.R = 2;
         }
         byte[] rets = login.ToByteArray();
         player.Client.DoRequest<Login>( rets, session );
@@ -125,7 +132,7 @@ public class PlayerManager {
             var db = player.Instance;
             //创建角色
             int r = db.Create_Character( pkg );
-            if( r == 0 ) {
+            if( r == 1 ) {
                 player.Status = "in game";
             }
             pcc.R = r;

@@ -30,13 +30,13 @@ public class TestLogin : MonoBehaviour {
     }
 
     public void CheckVersion() {
-        HttpLogin.CheckVersion( ( status, data ) => {
+        GameLogin.CheckVersion( ( status, data ) => {
             Debug.Log( status == HttpManager.HttpResponseStatus.OK ? "success" : "fail" );
         } );
     }
 
     public void DoHttpLogin() {
-        HttpLogin.DoHttpLogin( "123", ( status, data ) => {
+        GameLogin.HttpLogin( "123", ( status, data ) => {
             if( status == HttpManager.HttpResponseStatus.OK ) {
                 Debug.Log( data["token"].ValueAsString() );
             }
@@ -47,8 +47,8 @@ public class TestLogin : MonoBehaviour {
     }
 
     public void Refresh() {
-        string oldToken = global::HttpLogin.JsonToken["token"].ValueAsString();
-        HttpLogin.RefreshToken( oldToken, ( status, data ) => {
+        string oldToken = global::GameLogin.JsonToken["token"].ValueAsString();
+        GameLogin.RefreshToken( oldToken, ( status, data ) => {
             if( status == HttpManager.HttpResponseStatus.OK ) {
                 Debug.Log( data["token"].ValueAsString() );
             }

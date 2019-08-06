@@ -87,7 +87,7 @@ namespace GameProto {
     private int r_;
     /// <summary>
     /// response
-    ///  r=1,有重名的角色
+    ///  r=3,有重名的角色
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int R {

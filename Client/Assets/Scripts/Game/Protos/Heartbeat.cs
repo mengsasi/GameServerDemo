@@ -22,12 +22,12 @@ namespace GameProto {
     static HeartbeatReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg9IZWFydGJlYXQucHJvdG8SCWdhbWVQcm90byILCglIZWFydGJlYXRiBnBy",
-            "b3RvMw=="));
+            "Cg9IZWFydGJlYXQucHJvdG8SCWdhbWVQcm90byIWCglIZWFydGJlYXQSCQoB",
+            "chgBIAEoBWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Heartbeat), global::GameProto.Heartbeat.Parser, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::GameProto.Heartbeat), global::GameProto.Heartbeat.Parser, new[]{ "R" }, null, null, null)
           }));
     }
     #endregion
@@ -58,11 +58,26 @@ namespace GameProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Heartbeat(Heartbeat other) : this() {
+      r_ = other.r_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Heartbeat Clone() {
       return new Heartbeat(this);
+    }
+
+    /// <summary>Field number for the "r" field.</summary>
+    public const int RFieldNumber = 1;
+    private int r_;
+    /// <summary>
+    /// request
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int R {
+      get { return r_; }
+      set {
+        r_ = value;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -78,12 +93,14 @@ namespace GameProto {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (R != other.R) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (R != 0) hash ^= R.GetHashCode();
       return hash;
     }
 
@@ -94,11 +111,18 @@ namespace GameProto {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+      if (R != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(R);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (R != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(R);
+      }
       return size;
     }
 
@@ -106,6 +130,9 @@ namespace GameProto {
     public void MergeFrom(Heartbeat other) {
       if (other == null) {
         return;
+      }
+      if (other.R != 0) {
+        R = other.R;
       }
     }
 
@@ -117,6 +144,10 @@ namespace GameProto {
           default:
             input.SkipLastField();
             break;
+          case 8: {
+            R = input.ReadInt32();
+            break;
+          }
         }
       }
     }

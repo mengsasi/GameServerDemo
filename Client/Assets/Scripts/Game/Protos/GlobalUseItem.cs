@@ -101,7 +101,7 @@ namespace GameProto {
     private int r_;
     /// <summary>
     /// response
-    ///  r=1,物品数量不足
+    ///  r=2,物品数量不足
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int R {

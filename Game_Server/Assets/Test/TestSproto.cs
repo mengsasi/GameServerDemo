@@ -11,19 +11,19 @@ public class TestSproto : MonoBehaviour {
 
     void Start() {
 
-        Character character = new Character();
-        character.Id = "1";
-        character.Name = "aaa";
+        //Character character = new Character();
+        //character.Id = "1";
+        //character.Name = "aaa";
 
-        byte[] datas = character.ToByteArray();
+        //byte[] datas = character.ToByteArray();
 
         //IMessage imCharacter = new Character();
         //Character ch1 = new Character();
         //ch1 = (Character)imCharacter.Descriptor.Parser.ParseFrom( datas );
 
-        Character ch2 = Utils.ParseByte<Character>( datas );
+        //Character ch2 = Utils.ParseByte<Character>( datas );
 
-        Debug.Log( ch2.Name );
+        //Debug.Log( ch2.Name );
 
 
         //string name = "Global_Use_Item";
@@ -58,26 +58,29 @@ public class TestSproto : MonoBehaviour {
         //try {
         //    var d = Database.Get<CharacterData>( x => x._id == 11 );
         //    if( d == null ) {
-
         //        Database.Insert( data );
-
         //    }
         //    else {
-
         //        Database.Update( data );
-
         //    }
         //}
         //catch {
         //}
 
 
-
-        string sstr = "tokenlls";
-        var substr = sstr.Substring( 0, sstr.Length - 3 );
-        Debug.Log( substr );
+        //CharacterData existData = Database.Get<CharacterData>( x => x.Id == "1" );
+        //Debug.Log( existData == null );
 
 
+        //CharacterData data = new CharacterData() {
+        //    Id = "1"
+        //};
+        //Database.Insert( data );
+
+
+        //string sstr = "tokenlls";
+        //var substr = sstr.Substring( 0, sstr.Length - 3 );
+        //Debug.Log( substr );
 
         //var data = Database.Get<CharacterData>( x => x.Id == "111" );
         //Debug.Log( data == null );
@@ -85,8 +88,6 @@ public class TestSproto : MonoBehaviour {
 
 
 
-
     }
-
 
 }

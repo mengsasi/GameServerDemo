@@ -4,7 +4,9 @@ using UnityEngine;
 
 namespace Server {
 
-    public class NetworkProtoClient : MonoBehaviour {
+    public class NetworkProtoClient {
+
+        public long ID;
 
         private NetworkTcpClient client;
 
@@ -16,6 +18,7 @@ namespace Server {
         public void Init( NetworkTcpClient client ) {
             Session = 0;
             this.client = client;
+            ID = client.ID;
             PlayerManager.Instance.On_Connect( client.ID, this );
         }
 
@@ -23,7 +26,7 @@ namespace Server {
             //服务器主动发的，是-1
             //客户端发过来，有session，返回的根据客户端的session值
             long sess = session;
-            var type = typeof( T ).ToString();
+            var type = Utils.GetProtpType<T>();
             if( session == -1 ) {
                 Session = Session + 1;
                 if( Session > 65535 ) {
@@ -60,11 +63,11 @@ namespace Server {
             return Session;
         }
 
-        void Update() {
+        public void Update() {
             if( client == null )
                 return;
             var datas = client.Dispatch();
-            while( datas != null ) {
+            if( datas != null ) {
                 int headLength = (int)datas[0];
                 int dataLength = (int)datas[1];
 
@@ -81,6 +84,7 @@ namespace Server {
                 index = 0;
                 for( int i = headLength + 2; i < datas.Length; i++ ) {
                     data[index] = datas[i];
+                    index++;
                 }
 
                 Package_Head pkg = Utils.ParseByte<Package_Head>( head );
@@ -89,7 +93,7 @@ namespace Server {
             }
         }
 
-        void Close() {
+        public void Close() {
 
 
         }

@@ -11,9 +11,11 @@ public class TestServer : MonoBehaviour {
     }
 
     private void StartServer() {
-
         MainServer.Instance.StartServer( "127.0.0.1", 50001 );
+    }
 
+    void Start() {
+        MainServer.Instance.StartServer( "127.0.0.1", 50001 );
     }
 
 }

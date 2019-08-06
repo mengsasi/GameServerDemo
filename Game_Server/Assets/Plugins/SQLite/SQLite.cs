@@ -846,7 +846,7 @@ namespace SQLite4Unity3d
 		/// </returns>
 		public T Get<T> (Expression<Func<T, bool>> predicate) where T : new()
 		{
-			return Table<T> ().Where (predicate).First ();
+            return Table<T>().Where( predicate ).FirstOrDefault<T>();
 		}
 
 		/// <summary>

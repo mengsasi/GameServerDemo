@@ -3,42 +3,54 @@ using UnityEngine;
 
 namespace Server {
 
-    public class NetworkManager {
+    public class NetworkManager : Singleton<NetworkManager> {
 
-        private static NetworkManager instance;
-        public static NetworkManager Instance {
-            get {
-                return instance ?? ( instance = new NetworkManager() );
-            }
+        private List<NetworkProtoClient> clients = new List<NetworkProtoClient>();
+
+        private bool isInit = false;
+
+        public void Init() {
+            isInit = true;
         }
 
-        private GameObject netNode;
-        public GameObject NetNode {
-            get {
-                if( netNode == null ) {
-                    netNode = new GameObject( "NetNode" );
-                    Object.DontDestroyOnLoad( netNode );
-                }
-                return netNode;
-            }
+        public void DeInit() {
+            isInit = false;
+            clients.Clear();
         }
-
-        private Dictionary<long, NetworkProtoClient> clientDict = new Dictionary<long, NetworkProtoClient>();
 
         public void InitProtoClient( long id, NetworkTcpClient client ) {
-            var obj = new GameObject( "client " + id );
-            var protoClient = obj.AddComponent<NetworkProtoClient>();
-            obj.transform.SetParent( NetNode.transform );
-            clientDict.Add( id, protoClient );
+            var protoClient = new NetworkProtoClient();
             protoClient.Init( client );
+            Register( protoClient );
         }
 
-        public void RemoveClient( long id ) {
-            if( clientDict.ContainsKey( id ) ) {
-                clientDict.Remove( id );
+        public void Register( NetworkProtoClient client ) {
+            var exits = clients.Find( ( item ) => item.ID == client.ID );
+            if( exits == null ) {
+                clients.Add( client );
+            }
+            else {
+                Debug.Log( "client 重复" );
+            }
+        }
+
+        public void UnRegister( long id ) {
+            var exits = clients.Find( ( item ) => item.ID == id );
+            if( exits != null ) {
+                clients.Remove( exits );
+            }
+        }
+
+        void Update() {
+            if( isInit && clients.Count > 0 ) {
+                for( int i = clients.Count - 1; i >= 0; i-- ) {
+                    var item = clients[i];
+                    if( item != null ) {
+                        item.Update();
+                    }
+                }
             }
         }
 
     }
-
 }

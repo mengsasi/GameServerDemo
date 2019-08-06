@@ -1,13 +1,13 @@
 ﻿using LitJson;
 using System;
 
-public class HttpLogin {
+public class GameLogin {
 
     private static string Server_URL = "http://127.0.0.1:13200";
 
-    private static string Login_Path = "/login";
-    private static string RefreshToken_Path = "/refreshtoken";
-    private static string Config_Version_Path = "/config-version";
+    private static readonly string Login_Path = "/login";
+    private static readonly string RefreshToken_Path = "/refreshtoken";
+    private static readonly string Config_Version_Path = "/config-version";
 
     public static int Version = -1;
 
@@ -32,7 +32,7 @@ public class HttpLogin {
     public static JsonData JsonToken;
 
     //code 玩家用户名
-    public static void DoHttpLogin( string code, Action<HttpManager.HttpResponseStatus, JsonData> callback ) {
+    public static void HttpLogin( string code, Action<HttpManager.HttpResponseStatus, JsonData> callback ) {
         var body = new {
             code = code,
             sdk = "debug",
@@ -74,5 +74,6 @@ public class HttpLogin {
             }
         } );
     }
+
 
 }

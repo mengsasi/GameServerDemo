@@ -5,6 +5,7 @@ using System.Reflection;
 using Core.Network;
 using LitJson;
 using GameProto;
+using Google.Protobuf;
 
 namespace Game.Network {
 
@@ -234,24 +235,30 @@ namespace Game.Network {
                 return;
             }
             string token = LoginToken["token"].ValueAsString();
-            byte[] data = Utils.String2Byte( token );
+            Login pkg = new Login() {
+                Token = token
+            };
 
             isTcpLogging = true;
             Debug.Log( "Do TcpLogin Request" );
-            tcpClient.DoRequest<Login>( data, ( byte[] response ) => {
+            tcpClient.DoRequest<Login>( pkg.ToByteArray(), ( byte[] response ) => {
                 isTcpLogging = false;
 
                 Login login = Utils.ParseByte<Login>( response );
 
                 if( managerState != NetworkManagerState.CONNECTED ) {
                     Debug.Log( "StateError" );
-                    OnLoginFinish( login, false );
+                    if( OnLoginFinish != null ) {
+                        OnLoginFinish( login, false );
+                    }
                     return;
                 }
 
-                if( login.R != 0 ) {
+                if( login.R != 1 ) {
                     Debug.Log( "LoginError" );
-                    OnLoginFinish( login, false );
+                    if( OnLoginFinish != null ) {
+                        OnLoginFinish( login, false );
+                    }
                     return;
                 }
 
@@ -304,7 +311,12 @@ namespace Game.Network {
                 heartbeatCooldown -= Time.deltaTime;
                 if( heartbeatCooldown < 0 ) {
                     heartbeatCooldown = DEFAULT_HEARTBEAT_CD_TIME;
-                    DoRequest<Heartbeat>( new byte[1], null );
+                    Heartbeat heart = new Heartbeat {
+                        R = 1
+                    };
+                    DoRequest<Heartbeat>( heart.ToByteArray(), null );
+
+                    Debug.Log( "Heartbeat" );
                 }
             }
         }

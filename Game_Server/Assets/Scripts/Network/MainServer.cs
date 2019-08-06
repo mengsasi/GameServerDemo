@@ -17,13 +17,20 @@ namespace Server {
         /// </summary>
         public int maxSessionClient = 50;
 
+        private bool isStart = false;
+
         /// <summary>
         /// 启动服务器
         /// </summary>
         /// <param name="host"></param>
         /// <param name="por"></param>
         public void StartServer( string host, int port ) {
+            if( isStart ) {
+                return;
+            }
+            isStart = true;
             NetworkPool.SetMaxSessionClient( maxSessionClient );
+            NetworkManager.Instance.Init();
             Watchdog = new Socket( AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp );
             IPAddress ipAddress = IPAddress.Parse( host );
             IPEndPoint ipEndPoint = new IPEndPoint( ipAddress, port );

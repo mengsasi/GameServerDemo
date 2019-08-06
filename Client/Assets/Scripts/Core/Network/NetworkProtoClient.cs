@@ -157,6 +157,7 @@ namespace Core.Network {
                 index = 0;
                 for( int i = headLength + 2; i < datas.Length; i++ ) {
                     data[index] = datas[i];
+                    index++;
                 }
 
                 Package_Head pkg = Utils.ParseByte<Package_Head>( head );

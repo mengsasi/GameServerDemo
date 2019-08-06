@@ -15,7 +15,7 @@ public class ItemData {
 [Table( "CharacterData" )]
 public class CharacterData {
 
-    [PrimaryKey]
+    [PrimaryKey, AutoIncrement]
     public int _id { get; set; }
 
     public string Id { get; set; }//玩家输入的账号

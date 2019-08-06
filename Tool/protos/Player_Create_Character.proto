@@ -7,6 +7,6 @@ message Player_Create_Character {
 	string name = 1;
 	
 	//response
-	// r=1,有重名的角色
+	// r=3,有重名的角色
 	int32 r = 2;
 }
