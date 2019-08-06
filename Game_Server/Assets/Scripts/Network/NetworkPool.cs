@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Server {
 
-    public class NetworkPool : Singleton<NetworkPool> {
+    public class NetworkPool : Core.Singleton<NetworkPool> {
 
         public static long ClientCount = 0;
 

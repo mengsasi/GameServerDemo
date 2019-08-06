@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Sockets;
 using UnityEngine;
 
@@ -8,28 +9,26 @@ namespace Server {
     public class NetworkTcpClient {
 
         public long ID;
-
-        /// <summary>
-        /// 套接字
-        /// </summary>
         private Socket socket;
+        public Queue<byte[]> recvQueue = new Queue<byte[]>();
+        private ProtoStream recvStream = new ProtoStream();
 
-        private Queue<byte[]> recvQueue = new Queue<byte[]>();
-
-        /// <summary>
-        /// 缓冲区大小
-        /// </summary>
-        private const int BUFFER_SIZE = 1024;
-
-        /// <summary>
-        /// 读数据缓冲区
-        /// </summary>
-        private byte[] readBuffer = new byte[BUFFER_SIZE];
+        private int receivePosition;
 
         /// <summary>
         /// 是否使用
         /// </summary>
         public bool isUse = false;
+
+        public NetworkTcpClient() {
+            InitStream();
+        }
+
+        private void InitStream() {
+            byte[] receiveBuffer = new byte[1 << 16];
+            recvStream.Write( receiveBuffer, 0, receiveBuffer.Length );
+            recvStream.Seek( 0, SeekOrigin.Begin );
+        }
 
         /// <summary>
         /// 初始化
@@ -37,12 +36,11 @@ namespace Server {
         /// <param name="socket"></param>
         /// <param name="receiveTimeout"></param>
         public void Init( Socket socket, int receiveTimeout = 1000 ) {
-            readBuffer = new byte[BUFFER_SIZE];
             this.socket = socket;
             this.socket.ReceiveTimeout = receiveTimeout;
             isUse = true;
 
-            socket.BeginReceive( readBuffer, 0, readBuffer.Length, SocketFlags.None, ReceiveCallBack, null );
+            Begin_Recv();
 
             NetworkPool.ClientCount++;
             if( NetworkPool.ClientCount > 65535 ) {
@@ -89,16 +87,17 @@ namespace Server {
                     socket = null;
                 }
             }
-            readBuffer = new byte[BUFFER_SIZE];
+            recvStream = new ProtoStream();
+            InitStream();
             recvQueue.Clear();
             isUse = false;
         }
 
         public byte[] Dispatch() {
             lock( recvQueue ) {
-                if( recvQueue.Count == 0 )
+                if( recvQueue.Count == 0 ) {
                     return null;
-
+                }
                 return recvQueue.Dequeue();
             }
         }
@@ -117,40 +116,56 @@ namespace Server {
             }
         }
 
-        private void ReceiveCallBack( IAsyncResult result ) {
-            try {
-                int length = socket.EndReceive( result );
-                if( length <= 0 ) {
-                    Debug.Log( GetRemoteAddress() + "断开连接" );
-                    Close();
-                    return;
-                }
+        private void Begin_Recv() {
+            if( socket != null && socket.Connected ) {
+                socket.BeginReceive( recvStream.Buffer, receivePosition,
+                    recvStream.Buffer.Length - receivePosition, SocketFlags.None, ( result ) => {
+                        try {
+                            int length = socket.EndReceive( result );
+                            if( length <= 0 ) {
+                                Debug.Log( GetRemoteAddress() + "断开连接" );
+                                Close();
+                                return;
+                            }
 
-                var buffer = readBuffer;
-                int typeLength = buffer[0];
-                int dataLength = buffer[1];
+                            receivePosition += length;
+                            int i = recvStream.Position;
+                            while( receivePosition >= i + 2 ) {
+                                int dataLength = recvStream[0] + recvStream[1];
 
-                if( dataLength > 0 ) {
-                    int blength = typeLength + dataLength + 2;
-                    byte[] data = new byte[blength];
+                                int sz = dataLength + 2;
+                                if( receivePosition < i + sz ) {
+                                    break;
+                                }
 
-                    for( int i = 0; i < blength; i++ ) {
-                        data[i] = buffer[i];
-                    }
+                                recvStream.Seek( 0, SeekOrigin.Current );
 
-                    lock( recvQueue ) {
-                        recvQueue.Enqueue( data );
-                    }
-                }
+                                if( dataLength > 0 ) {
+                                    byte[] data = new byte[sz];
+                                    recvStream.Read( data, 0, sz );
+                                    lock( recvQueue ) {
+                                        recvQueue.Enqueue( data );
+                                    }
+                                }
 
-                readBuffer = new byte[BUFFER_SIZE];
-                socket.BeginReceive( readBuffer, 0, readBuffer.Length, SocketFlags.None, ReceiveCallBack, null );
+                                i += sz;
+                            }
+
+                            if( receivePosition == recvStream.Buffer.Length ) {
+                                recvStream.Seek( 0, SeekOrigin.End );
+                                recvStream.MoveUp( i, i );
+                                receivePosition = recvStream.Position;
+                                recvStream.Seek( 0, SeekOrigin.Begin );
+                            }
+
+                            Begin_Recv();
+                        }
+                        catch( Exception ) {
+                            Debug.Log( GetRemoteAddress() + "断开连接" );
+                            Close();
+                        }
+                    }, null );
             }
-            catch( Exception ) {
-                Debug.Log( GetRemoteAddress() + "断开连接" );
-                Close();
-            }
-
         }
 
     }

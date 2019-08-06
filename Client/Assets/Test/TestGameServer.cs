@@ -1,6 +1,7 @@
 ﻿using Game.Network;
 using GameProto;
 using Google.Protobuf;
+using LitJson;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,6 +45,11 @@ public class TestGameServer : MonoBehaviour {
     }
 
     private void LoginTcp() {
+        //测试
+        JsonData token = new JsonData();
+        token["token"] = "anjainlls";
+        NetworkManager.LoginToken = token;
+
         NetworkManager.Instance.OnLoginFinish += ( login, success ) => {
             if( success ) {
                 Debug.Log( "login success " + login.R );
@@ -59,6 +65,7 @@ public class TestGameServer : MonoBehaviour {
 
     private void CreateCharacter() {
         if( string.IsNullOrEmpty( InputName.text ) ) {
+            Debug.Log( "填写角色昵称" );
             return;
         }
         Player_Create_Character request = new Player_Create_Character {

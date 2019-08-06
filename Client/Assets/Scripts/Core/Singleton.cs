@@ -1,44 +1,49 @@
 ﻿using UnityEngine;
 
-public class Singleton<T> : MonoBehaviour where T : MonoBehaviour {
+namespace Core {
 
-    private static T instance;
+    public class Singleton<T> : MonoBehaviour where T : MonoBehaviour {
 
-    private static object _lock = new object();
+        private static T instance;
 
-    public static T Instance {
-        get {
-            if( applicationIsQuitting ) {
-                Debug.LogWarning( "application is quit" );
-                return null;
-            }
+        private static object _lock = new object();
 
-            lock( _lock ) {
-                if( instance == null ) {
-                    instance = (T)FindObjectOfType( typeof( T ) );
+        public static T Instance {
+            get {
+                if( applicationIsQuitting ) {
+                    Debug.LogWarning( "application is quit" );
+                    return null;
+                }
 
+                lock( _lock ) {
                     if( instance == null ) {
-                        GameObject singletion = new GameObject();
-                        instance = singletion.AddComponent<T>();
-                        singletion.name = "(singletion)" + typeof( T ).ToString();
+                        instance = (T)FindObjectOfType( typeof( T ) );
 
-                        if( !Application.isPlaying ) {
-                            instance.hideFlags = HideFlags.HideAndDontSave;
-                        }
-                        else {
-                            DontDestroyOnLoad( singletion );
+                        if( instance == null ) {
+                            GameObject singletion = new GameObject();
+                            instance = singletion.AddComponent<T>();
+                            singletion.name = "(singletion)" + typeof( T ).ToString();
+
+                            if( !Application.isPlaying ) {
+                                instance.hideFlags = HideFlags.HideAndDontSave;
+                            }
+                            else {
+                                DontDestroyOnLoad( singletion );
+                            }
                         }
                     }
+                    return instance;
                 }
-                return instance;
             }
         }
-    }
 
-    private static bool applicationIsQuitting = false;
+        private static bool applicationIsQuitting = false;
 
-    public void OnDestroy() {
-        applicationIsQuitting = true;
+        public void OnDestroy() {
+            applicationIsQuitting = true;
+        }
+
     }
 
 }
+

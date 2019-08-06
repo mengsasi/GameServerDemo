@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Server {
 
-    public class NetworkManager : Singleton<NetworkManager> {
+    public class NetworkManager : Core.Singleton<NetworkManager> {
 
         private List<NetworkProtoClient> clients = new List<NetworkProtoClient>();
 

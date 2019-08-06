@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Server {
 
-    public class MainServer : Singleton<MainServer> {
+    public class MainServer : Core.Singleton<MainServer> {
 
         /// <summary>
         /// 监听套接字

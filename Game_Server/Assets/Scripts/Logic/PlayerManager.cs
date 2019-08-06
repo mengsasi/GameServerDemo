@@ -5,171 +5,173 @@ using Server;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInfo {
-    public long ID;
-    public PlayerDb Instance;
-    public NetworkProtoClient Client;
-    public string Status;
-}
+namespace Logic {
 
-public class PlayerManager {
-
-    private static PlayerManager instance;
-    public static PlayerManager Instance {
-        get {
-            return instance ?? ( instance = new PlayerManager() );
-        }
+    public class PlayerInfo {
+        public long ID;
+        public PlayerDb Instance;
+        public NetworkProtoClient Client;
+        public string Status;
     }
 
-    private Dictionary<long, PlayerInfo> players = new Dictionary<long, PlayerInfo>();
+    public class PlayerManager {
 
-    public PlayerInfo GetPlayer( long id ) {
-        if( players.ContainsKey( id ) ) {
-            return players[id];
+        private static PlayerManager instance;
+        public static PlayerManager Instance {
+            get {
+                return instance ?? ( instance = new PlayerManager() );
+            }
         }
-        return null;
-    }
 
-    public void Clear( long id, string reason ) {
+        private Dictionary<long, PlayerInfo> players = new Dictionary<long, PlayerInfo>();
 
-
-    }
-
-    public void On_Connect( long id, NetworkProtoClient client ) {
-        if( players.ContainsKey( id ) ) {
-            Debug.Log( "Already has connect " + id );
-            return;
+        public PlayerInfo GetPlayer( long id ) {
+            if( players.ContainsKey( id ) ) {
+                return players[id];
+            }
+            return null;
         }
-        var info = new PlayerInfo {
-            ID = id,
-            Instance = null,
-            Client = client,
-            Status = "login"
-        };
-        players.Add( id, info );
-    }
 
-    //错误值r=2，是流程错误
-    public void On_Request( long id, Package_Head head, byte[] data ) {
-        var player = GetPlayer( id );
-        if( player == null ) {
-            return;
-        }
-        var client = player.Client;
+        public void Clear( long id, string reason ) {
 
-        Debug.Log( "request " + head.Type );
-
-        if( head.Type == Utils.GetProtpType<Heartbeat>() ) {
 
         }
-        else if( head.Type == Utils.GetProtpType<Login>() ) {
-            if( player.Status == "login" ) {
-                Login_Process( player, head.Session, data );
+
+        public void On_Connect( long id, NetworkProtoClient client ) {
+            if( players.ContainsKey( id ) ) {
+                Debug.Log( "Already has connect " + id );
+                return;
+            }
+            var info = new PlayerInfo {
+                ID = id,
+                Instance = null,
+                Client = client,
+                Status = "login"
+            };
+            players.Add( id, info );
+        }
+
+        //错误值r=2，是流程错误
+        public void On_Request( long id, Package_Head head, byte[] data ) {
+            var player = GetPlayer( id );
+            if( player == null ) {
+                return;
+            }
+            var client = player.Client;
+
+            if( head.Type == Utils.GetProtpType<Heartbeat>() ) {
+
+            }
+            else if( head.Type == Utils.GetProtpType<Login>() ) {
+                if( player.Status == "login" ) {
+                    Login_Process( player, head.Session, data );
+                }
+                else {
+                    //流程错误
+                    Login login = new Login {
+                        R = 2
+                    };
+                    byte[] rets = login.ToByteArray();
+                    client.DoRequest<Login>( rets, head.Session );
+                }
+            }
+            else if( head.Type == Utils.GetProtpType<Player_Create_Character>() ) {
+                if( player.Status == "create character" ) {
+                    Create_Character_Process( player, head.Session, data );
+                }
+                else {
+                    //流程错误
+                    Player_Create_Character pcc = new Player_Create_Character {
+                        R = 2
+                    };
+                    byte[] rets = pcc.ToByteArray();
+                    client.DoRequest<Player_Create_Character>( rets, head.Session );
+                }
             }
             else {
-                //流程错误
-                Login login = new Login {
-                    R = 1
-                };
-                byte[] rets = login.ToByteArray();
-                client.DoRequest<Login>( rets, head.Session );
+                Dispose( player, head, data );
             }
         }
-        else if( head.Type == Utils.GetProtpType<Player_Create_Character>() ) {
-            if( player.Status == "create character" ) {
-                Create_Character_Process( player, head.Session, data );
+
+        public void Login_Process( PlayerInfo player, long session, byte[] data ) {
+            Login login = new Login();
+            try {
+                Login pkg = Utils.ParseByte<Login>( data );
+
+                //有redis服务器，根据pkg的token去找保存的http登陆的账号数据
+                //这里省略
+                var id = pkg.Token.Substring( 0, pkg.Token.Length - 3 );
+
+                CharacterData existData = Database.Get<CharacterData>( x => x.Id == id );
+                var db = PlayerDb.New( id );
+                player.Instance = db;
+
+                if( existData == null || string.IsNullOrEmpty( existData.Name ) ) {
+                    player.Status = "create character";
+                }
+                else {
+                    player.Status = "in game";
+                }
+                login.R = 1;
+                login.Time = Utils.GetTimeStamp();
             }
-            else {
-                //流程错误
-                Player_Create_Character pcc = new Player_Create_Character {
-                    R = 2
-                };
-                byte[] rets = pcc.ToByteArray();
-                client.DoRequest<Player_Create_Character>( rets, head.Session );
+            catch {
+                login.R = 2;
+            }
+            byte[] rets = login.ToByteArray();
+            player.Client.DoRequest<Login>( rets, session );
+
+            CheckInitPlayer( player );
+        }
+
+        public void Create_Character_Process( PlayerInfo player, long session, byte[] data ) {
+            Player_Create_Character pcc = new Player_Create_Character();
+            try {
+                Player_Create_Character pkg = Utils.ParseByte<Player_Create_Character>( data );
+
+                var db = player.Instance;
+                //创建角色
+                int r = db.Create_Character( pkg );
+                if( r == 1 ) {
+                    player.Status = "in game";
+                }
+                pcc.R = r;
+            }
+            catch {
+                pcc.R = 2;
+            }
+            byte[] rets = pcc.ToByteArray();
+            player.Client.DoRequest<Player_Create_Character>( rets, session );
+
+            CheckInitPlayer( player );
+        }
+
+        private void CheckInitPlayer( PlayerInfo player ) {
+            //
+            if( player.Status == "in game" ) {
+                //玩家初始化
             }
         }
-        else {
-            Dispose( player, head, data );
+
+        public void Dispose( PlayerInfo player, Package_Head head, byte[] data ) {
+
+
         }
-    }
 
-    public void Login_Process( PlayerInfo player, long session, byte[] data ) {
-        Login login = new Login();
-        try {
-            Login pkg = Utils.ParseByte<Login>( data );
-
-            //有redis服务器，根据pkg的token去找保存的http登陆的账号数据
-            //这里省略
-            var id = pkg.Token.Substring( 0, pkg.Token.Length - 3 );
-
-            CharacterData existData = Database.Get<CharacterData>( x => x.Id == id );
-            var db = PlayerDb.New( id );
-            player.Instance = db;
-
-            if( existData == null || string.IsNullOrEmpty( existData.Name ) ) {
-                player.Status = "create character";
+        public void Send_Request<T>( long id, byte[] data ) {
+            var player = GetPlayer( id );
+            if( player == null ) {
+                return;
             }
-            else {
-                player.Status = "in game";
+            player.Client.DoRequest<T>( data );
+        }
+
+        public void Broadcast<T>( byte[] data ) {
+            foreach( var item in players.Values ) {
+                item.Client.DoRequest<T>( data );
             }
-            login.R = 1;
-            login.Time = Utils.GetTimeStamp();
         }
-        catch {
-            login.R = 2;
-        }
-        byte[] rets = login.ToByteArray();
-        player.Client.DoRequest<Login>( rets, session );
 
-        CheckInitPlayer( player );
-    }
-
-    public void Create_Character_Process( PlayerInfo player, long session, byte[] data ) {
-        Player_Create_Character pcc = new Player_Create_Character();
-        try {
-            Player_Create_Character pkg = Utils.ParseByte<Player_Create_Character>( data );
-
-            var db = player.Instance;
-            //创建角色
-            int r = db.Create_Character( pkg );
-            if( r == 1 ) {
-                player.Status = "in game";
-            }
-            pcc.R = r;
-        }
-        catch {
-            pcc.R = 2;
-        }
-        byte[] rets = pcc.ToByteArray();
-        player.Client.DoRequest<Player_Create_Character>( rets, session );
-
-        CheckInitPlayer( player );
-    }
-
-    private void CheckInitPlayer( PlayerInfo player ) {
-        //
-        if( player.Status == "in game" ) {
-            //玩家初始化
-        }
-    }
-
-    public void Dispose( PlayerInfo player, Package_Head head, byte[] data ) {
-
-
-    }
-
-    public void Send_Request<T>( long id, byte[] data ) {
-        var player = GetPlayer( id );
-        if( player == null ) {
-            return;
-        }
-        player.Client.DoRequest<T>( data );
-    }
-
-    public void Broadcast<T>( byte[] data ) {
-        foreach( var item in players.Values ) {
-            item.Client.DoRequest<T>( data );
-        }
     }
 
 }

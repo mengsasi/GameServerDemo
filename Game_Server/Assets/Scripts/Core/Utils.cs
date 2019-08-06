@@ -45,4 +45,19 @@ public static class Utils {
         return typeof( T ).ToString();
     }
 
+    public static string GetPackName( string type ) {
+        int index = type.LastIndexOf( "." );
+        return type.Substring( index + 1 );
+    }
+
+    public static byte[] CopyBytes( byte[] source, int start, int end ) {
+        byte[] buffer = new byte[end - start];
+        int index = 0;
+        for( int i = start; i < end; i++ ) {
+            buffer[index] = source[i];
+            index++;
+        }
+        return buffer;
+    }
+
 }

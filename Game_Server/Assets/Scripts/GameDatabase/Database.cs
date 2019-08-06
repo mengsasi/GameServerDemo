@@ -54,10 +54,6 @@ namespace GameDatabase {
             Connection.CreateTable<CharacterData>();
         }
 
-        public static void Execute( string query, params object[] args ) {
-            Connection.Execute( query, args );
-        }
-
         public static TableQuery<T> GetTable<T>() where T : new() {
             return Connection.Table<T>();
         }

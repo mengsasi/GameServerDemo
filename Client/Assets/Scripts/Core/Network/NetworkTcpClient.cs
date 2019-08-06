@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
@@ -13,14 +14,19 @@ namespace Core.Network {
         private Socket socket;
         public SocketStateChangedCallback StateChanged;
 
-        private const int BUFFER_SIZE = 1024;
-        private byte[] readBuffer = new byte[BUFFER_SIZE];
-
+        private ProtoStream recvStream = new ProtoStream();
         private Queue<byte[]> recvQueue = new Queue<byte[]>();
 
         public NetworkTcpClient() {
-            readBuffer = new byte[BUFFER_SIZE];
+            InitStream();
         }
+
+        private void InitStream() {
+            byte[] receiveBuffer = new byte[1 << 16];
+            recvStream.Write( receiveBuffer, 0, receiveBuffer.Length );
+            recvStream.Seek( 0, System.IO.SeekOrigin.Begin );
+        }
+
 
         public void ConnectDomain( string host, int port ) {
             Dns.BeginGetHostEntry( host, result => {
@@ -92,10 +98,11 @@ namespace Core.Network {
             }, null );
         }
 
+        private static int receivePosition;
         private void Begin_Recv() {
             if( socket.Connected ) {
-                socket.BeginReceive( readBuffer, 0,
-                readBuffer.Length, SocketFlags.None, result => {
+                socket.BeginReceive( recvStream.Buffer, receivePosition,
+                recvStream.Buffer.Length - receivePosition, SocketFlags.None, result => {
                     try {
                         int length = socket.EndReceive( result );
                         if( length <= 0 ) {
@@ -103,23 +110,37 @@ namespace Core.Network {
                             return;
                         }
 
-                        var buffer = readBuffer;
-                        int typeLength = buffer[0];
-                        int dataLength = buffer[1];
+                        receivePosition += length;
+                        int i = recvStream.Position;
+                        while( receivePosition >= i + 2 ) {
+                            int dataLength = recvStream[0] + recvStream[1];
 
-                        if( dataLength > 0 ) {
-                            int blength = typeLength + dataLength + 2;
-                            byte[] data = new byte[blength];
-
-                            for( int i = 0; i < blength; i++ ) {
-                                data[i] = buffer[i];
+                            int sz = dataLength + 2;
+                            if( receivePosition < i + sz ) {
+                                break;
                             }
 
-                            lock( recvQueue ) {
-                                recvQueue.Enqueue( data );
+                            recvStream.Seek( 0, SeekOrigin.Current );
+
+                            if( dataLength > 0 ) {
+                                byte[] data = new byte[sz];
+                                recvStream.Read( data, 0, sz );
+
+                                lock( recvQueue ) {
+                                    recvQueue.Enqueue( data );
+                                }
                             }
+
+                            i += sz;
                         }
-                        readBuffer = new byte[BUFFER_SIZE];
+
+                        if( receivePosition == recvStream.Buffer.Length ) {
+                            recvStream.Seek( 0, SeekOrigin.End );
+                            recvStream.MoveUp( i, i );
+                            receivePosition = recvStream.Position;
+                            recvStream.Seek( 0, SeekOrigin.Begin );
+                        }
+
                         Begin_Recv();
                     }
                     catch( Exception ) {

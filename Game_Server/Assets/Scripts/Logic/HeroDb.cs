@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroDb {
+namespace Logic {
+
+    public class HeroDb {
 
 
 
 
 
-
-
-
+    }
 
 }

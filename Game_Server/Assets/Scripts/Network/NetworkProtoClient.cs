@@ -1,5 +1,7 @@
 ﻿using GameProto;
 using Google.Protobuf;
+using Logic;
+using System.IO;
 using UnityEngine;
 
 namespace Server {
@@ -9,6 +11,10 @@ namespace Server {
         public long ID;
 
         private NetworkTcpClient client;
+
+        private ProtoStream sendStream = new ProtoStream();
+
+        private static readonly int MAX_PACK_LEN = ( 1 << 16 ) - 1;
 
         public long Session {
             get;
@@ -45,21 +51,18 @@ namespace Server {
             int headLength = head.Length;
             int length = data.Length + headLength + 2;
 
-            byte[] buffer = new byte[length];
-            buffer[0] = (byte)headLength;
-            buffer[1] = (byte)data.Length;
+            if( length > MAX_PACK_LEN ) {
+                Debug.LogError( "data.Length > " + MAX_PACK_LEN + " => " + length );
+                return Session;
+            }
 
-            int index = 0;
-            for( int i = 2; i < headLength + 2; i++ ) {
-                buffer[i] = head[index];
-                index++;
-            }
-            index = 0;
-            for( int i = 2 + headLength; i < length; i++ ) {
-                buffer[i] = data[index];
-                index++;
-            }
-            client.Send( buffer, length );
+            sendStream.Seek( 0, SeekOrigin.Begin );
+            sendStream.WriteByte( (byte)headLength );
+            sendStream.WriteByte( (byte)data.Length );
+            sendStream.Write( head, 0, head.Length );
+            sendStream.Write( data, 0, data.Length );
+
+            client.Send( sendStream.Buffer, sendStream.Position );
             return Session;
         }
 
@@ -67,29 +70,20 @@ namespace Server {
             if( client == null )
                 return;
             var datas = client.Dispatch();
-            if( datas != null ) {
+            while( datas != null ) {
                 int headLength = (int)datas[0];
                 int dataLength = (int)datas[1];
 
                 Debug.Assert( headLength + dataLength + 2 == datas.Length );
 
-                byte[] head = new byte[headLength];
-                byte[] data = new byte[dataLength];
-
-                int index = 0;
-                for( int i = 2; i < headLength + 2; i++ ) {
-                    head[index] = datas[i];
-                    index++;
-                }
-                index = 0;
-                for( int i = headLength + 2; i < datas.Length; i++ ) {
-                    data[index] = datas[i];
-                    index++;
-                }
+                byte[] head = Utils.CopyBytes( datas, 2, headLength + 2 );
+                byte[] data = Utils.CopyBytes( datas, headLength + 2, datas.Length );
 
                 Package_Head pkg = Utils.ParseByte<Package_Head>( head );
 
                 PlayerManager.Instance.On_Request( client.ID, pkg, data );
+
+                datas = client.Dispatch();
             }
         }
 

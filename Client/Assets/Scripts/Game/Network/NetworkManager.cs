@@ -9,7 +9,7 @@ using Google.Protobuf;
 
 namespace Game.Network {
 
-    public class NetworkManager : Singleton<NetworkManager> {
+    public class NetworkManager : Core.Singleton<NetworkManager> {
         public enum NetworkManagerState {
             CLOSED,
             CONNECTED,
@@ -315,8 +315,6 @@ namespace Game.Network {
                         R = 1
                     };
                     DoRequest<Heartbeat>( heart.ToByteArray(), null );
-
-                    Debug.Log( "Heartbeat" );
                 }
             }
         }

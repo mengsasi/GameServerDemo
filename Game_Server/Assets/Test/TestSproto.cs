@@ -88,6 +88,12 @@ public class TestSproto : MonoBehaviour {
 
 
 
+        var type = Utils.GetProtpType<Login>();
+        var str = Utils.GetPackName( type );
+        Debug.Log( str );
+
+
+
     }
 
 }

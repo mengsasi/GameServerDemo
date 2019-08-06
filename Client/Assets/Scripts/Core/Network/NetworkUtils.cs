@@ -2,20 +2,23 @@
 using System;
 using System.Collections.Generic;
 
-public class NetworkUtils {
+namespace Core.Network {
 
-    private static NetworkUtils instance;
-    public static NetworkUtils Instance {
-        get {
-            return instance ?? ( instance = new NetworkUtils() );
+    public class NetworkUtils {
+
+        private static NetworkUtils instance;
+        public static NetworkUtils Instance {
+            get {
+                return instance ?? ( instance = new NetworkUtils() );
+            }
         }
+
+        public Dictionary<Type, string> ProtoTags = new Dictionary<Type, string>();
+
+        NetworkUtils() {
+            ProtoTags.Add( typeof( Sync_Character ), "Sync_Character" );
+
+        }
+
     }
-
-    public Dictionary<Type, string> ProtoTags = new Dictionary<Type, string>();
-
-    NetworkUtils() {
-        ProtoTags.Add( typeof( Sync_Character ), "Sync_Character" );
-
-    }
-
 }
