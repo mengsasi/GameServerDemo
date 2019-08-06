@@ -13,8 +13,6 @@ namespace Server {
         public Queue<byte[]> recvQueue = new Queue<byte[]>();
         private ProtoStream recvStream = new ProtoStream();
 
-        private int receivePosition;
-
         /// <summary>
         /// 是否使用
         /// </summary>
@@ -116,6 +114,8 @@ namespace Server {
             }
         }
 
+        private int receivePosition;
+
         private void Begin_Recv() {
             if( socket != null && socket.Connected ) {
                 socket.BeginReceive( recvStream.Buffer, receivePosition,
@@ -129,9 +129,10 @@ namespace Server {
                             }
 
                             receivePosition += length;
+
                             int i = recvStream.Position;
                             while( receivePosition >= i + 2 ) {
-                                int dataLength = recvStream[0] + recvStream[1];
+                                int dataLength = recvStream[i] + recvStream[i + 1];
 
                                 int sz = dataLength + 2;
                                 if( receivePosition < i + sz ) {

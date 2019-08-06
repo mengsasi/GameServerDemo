@@ -113,7 +113,7 @@ namespace Core.Network {
                         receivePosition += length;
                         int i = recvStream.Position;
                         while( receivePosition >= i + 2 ) {
-                            int dataLength = recvStream[0] + recvStream[1];
+                            int dataLength = recvStream[i] + recvStream[i + 1];
 
                             int sz = dataLength + 2;
                             if( receivePosition < i + sz ) {
