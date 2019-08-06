@@ -70,7 +70,7 @@ namespace GameProto {
     public const int RFieldNumber = 1;
     private int r_;
     /// <summary>
-    /// request
+    /// request 传1
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int R {

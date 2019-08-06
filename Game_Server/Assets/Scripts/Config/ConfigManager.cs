@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-
-//升级配置
-public class LevelConfig {
-    public int Level;
-    public ItemData Cost;
-}
+﻿using LitJson;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class ConfigManager {
 
@@ -15,5 +11,22 @@ public class ConfigManager {
         }
     }
 
+    private Dictionary<string, JsonData> configDic = new Dictionary<string, JsonData>();
+
+    JsonData LoadArrConf( string name ) {
+        var confText = Resources.Load<TextAsset>( name );
+        JsonData obj = JsonMapper.ToObject( confText.text );
+        configDic.Add( name, obj );
+        return obj;
+    }
+
+    public JsonData GetJsonDatas( string name ) {
+        JsonData data;
+        if( configDic.TryGetValue( name, out data ) == false ) {
+            data = LoadArrConf( name );
+            configDic.Add( name, data );
+        }
+        return data;
+    }
 
 }
