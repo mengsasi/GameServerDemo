@@ -1,5 +1,6 @@
 ﻿using GameDatabase;
 using GameProto;
+using LitJson;
 
 namespace Logic {
 
@@ -34,11 +35,40 @@ namespace Logic {
             return player;
         }
 
+        public void Init() {
+
+
+
+        }
+
         public int Create_Character( Player_Create_Character pkg ) {
             var existName = Database.Get<CharacterData>( x => x.Name == pkg.Name );
             if( existName == null ) {
                 Data.Name = pkg.Name;
-                Database.Update( data );
+
+                //创建hero
+                JsonData heros = new JsonData();
+                for( int i = 0; i < 3; i++ ) {
+                    JsonData hero = new JsonData {
+                        ["Id"] = ( i + 1 ).ToString(),
+                        ["Level"] = 1
+                    };
+                    heros.Add( hero );
+                }
+                Data.Heros = heros.ToJson();
+
+                //默认物品
+                JsonData items = new JsonData();
+                for( int i = 0; i < 4; i++ ) {
+                    JsonData item = new JsonData {
+                        ["id"] = ( i + 1 ).ToString(),
+                        ["count"] = 100
+                    };
+                    items.Add( item );
+                }
+                Data.Items = items.ToJson();
+
+                Database.Update( data );//小写
                 return 1;
             }
             return 3;//有重名

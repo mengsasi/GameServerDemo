@@ -1,6 +1,7 @@
 ﻿using GameDatabase;
 using GameProto;
 using Google.Protobuf;
+using LitJson;
 using System;
 using System.IO;
 using System.Reflection;
@@ -88,9 +89,22 @@ public class TestSproto : MonoBehaviour {
 
 
 
-        var type = Utils.GetProtpType<Login>();
-        var str = Utils.GetPackName( type );
-        Debug.Log( str );
+        //var type = Utils.GetProtpType<Login>();
+        //var str = Utils.GetPackName( type );
+        //Debug.Log( str );
+
+
+
+        JsonData heros = new JsonData();
+        for( int i = 0; i < 3; i++ ) {
+            JsonData hero = new JsonData {
+                ["Id"] = ( i + 1 ).ToString(),
+                ["Level"] = 1
+            };
+            heros.Add( hero );
+        }
+        Debug.Log( heros.ToJson() );
+
 
 
 

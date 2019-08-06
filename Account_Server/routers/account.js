@@ -16,8 +16,8 @@ router.get('/config-version', (req, res) => {
 //下载所有配置，应该将所有配置表，加到一个json文件中，省略了
 //只做测试用
 router.get('/all-config', (req, res) => {
-    const levelConfigs = JSON.parse(fs.readFileSync('../Database/Level.json'));
-    res.json({ "Level.json": levelConfigs });
+    const levelConfigs = JSON.parse(fs.readFileSync('../Database/allConfig.json'));
+    res.json(levelConfigs);
 });
 
 //{"code": "123", "sdk": "debug", "version": 999}
