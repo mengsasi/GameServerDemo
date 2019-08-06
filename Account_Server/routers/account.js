@@ -13,6 +13,13 @@ router.get('/config-version', (req, res) => {
     res.json({ version: 999 });
 });
 
+//下载所有配置，应该将所有配置表，加到一个json文件中，省略了
+//只做测试用
+router.get('/all-config', (req, res) => {
+    const levelConfigs = JSON.parse(fs.readFileSync('../Database/Level.json'));
+    res.json({ "Level.json": levelConfigs });
+});
+
 //{"code": "123", "sdk": "debug", "version": 999}
 router.post('/login', (req, res) => {
     const body = req.body;
