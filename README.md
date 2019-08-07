@@ -1,6 +1,18 @@
 # GameDemo
-服务器demo
+服务器demo <br/>
+这是一个Unity网络游戏测试模板，可以进行Http登陆，Tcp登陆，收发包 <br/>
+也可以自行扩展Tcp包，协议包在Tool文件夹下 <br/>
 
+&emsp;
+
+Account_Server 是http服务器，用node写的 <br/>
+Client 是Unity客户端 <br/>
+Game_Server 是游戏服务器，为了简单，直接用Unity搭了一个框架 <br/>
+Doc 是游戏文档，配置文件夹 <br/>
+Database 是存放数据的地方，本来应该用数据库保存，为了简单，方便测试，直接用了文件存储 <br/>
+Tool 是工具集 <br/>
+
+&emsp;
 &emsp;
 
 ## 安装node-v10.16.0-x64
