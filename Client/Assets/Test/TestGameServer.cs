@@ -37,6 +37,20 @@ public class TestGameServer : MonoBehaviour {
         BtnUseItem.onClick.AddListener( UseItem );
     }
 
+    void Start() {
+
+        //注册s2c的包
+        //服务器主动推过来的消息
+        //Sync_Character 当登陆成功后，服务器会将玩家数据发送过来
+        NetworkManager.Instance.RegisterRequestCallback<Sync_Character>( ( data ) => {
+            Sync_Character response = Utils.ParseByte<Sync_Character>( data );
+
+            Debug.Log( "Character.Name " + response.Character.Name );
+
+        } );
+
+    }
+
     private void TcpConnect() {
         NetworkManager.TCPHostUrl = "127.0.0.1";
         NetworkManager.TCPPort = 50001;
@@ -46,8 +60,9 @@ public class TestGameServer : MonoBehaviour {
 
     private void LoginTcp() {
         //测试
-        JsonData token = new JsonData();
-        token["token"] = "anjainlls";
+        JsonData token = new JsonData {
+            ["token"] = "anjainalls"
+        };
         NetworkManager.LoginToken = token;
 
         NetworkManager.Instance.OnLoginFinish += ( login, success ) => {
@@ -74,38 +89,66 @@ public class TestGameServer : MonoBehaviour {
 
         NetworkManager.Instance.DoRequest<Player_Create_Character>( request.ToByteArray(), ( data ) => {
             Player_Create_Character response = Utils.ParseByte<Player_Create_Character>( data );
-
             if( response.R == 1 ) {
                 Debug.Log( "Player_Create_Character success " + response.R );
             }
             else {
                 Debug.Log( "Player_Create_Character fail " + response.R );
             }
-
         } );
     }
 
     private void PlayerLevelUp() {
+        Player_Upgrade_Level request = new Player_Upgrade_Level();
 
+        Debug.Log( "Player_Upgrade_Level" );
 
+        NetworkManager.Instance.DoRequest<Player_Upgrade_Level>( request.ToByteArray(), ( data ) => {
+            Player_Upgrade_Level response = Utils.ParseByte<Player_Upgrade_Level>( data );
+            if( response.R == 1 ) {
+                Debug.Log( "Player_Upgrade_Level success " + response.R );
+            }
+            else {
+                Debug.Log( "Player_Upgrade_Level fail " + response.R );
+            }
+        } );
     }
 
     private void HeroLevelUp() {
+        Hero_Upgrade_Level request = new Hero_Upgrade_Level() {
+            Id = "1"
+        };
 
+        Debug.Log( "Hero_Upgrade_Level" );
 
-
+        NetworkManager.Instance.DoRequest<Hero_Upgrade_Level>( request.ToByteArray(), ( data ) => {
+            Hero_Upgrade_Level response = Utils.ParseByte<Hero_Upgrade_Level>( data );
+            if( response.R == 1 ) {
+                Debug.Log( "Hero_Upgrade_Level success " + response.R );
+            }
+            else {
+                Debug.Log( "Hero_Upgrade_Level fail " + response.R );
+            }
+        } );
     }
 
     private void UseItem() {
+        Global_Use_Item request = new Global_Use_Item() {
+            Id = "1",
+            Count = 1,
+        };
 
+        Debug.Log( "Global_Use_Item" );
 
-
-
-
-
+        NetworkManager.Instance.DoRequest<Global_Use_Item>( request.ToByteArray(), ( data ) => {
+            Global_Use_Item response = Utils.ParseByte<Global_Use_Item>( data );
+            if( response.R == 1 ) {
+                Debug.Log( "Global_Use_Item success " + response.R );
+            }
+            else {
+                Debug.Log( "Global_Use_Item fail " + response.R );
+            }
+        } );
     }
-
-
-
 
 }

@@ -54,13 +54,13 @@ namespace Core.Network {
         private Dictionary<string, ServerRequest> s2cRequest = new Dictionary<string, ServerRequest>();
 
         public void RegisterRequestCallback<T>( ServerRequest request ) {
-            string tag = NetworkUtils.Instance.ProtoTags[typeof( T )];
+            string tag = Utils.GetProtpType<T>();
             if( !s2cRequest.ContainsKey( tag ) )
                 s2cRequest.Add( tag, request );
         }
 
         public void UnregisterRequestCallback<T>() {
-            string tag = NetworkUtils.Instance.ProtoTags[typeof( T )];
+            string tag = Utils.GetProtpType<T>();
             s2cRequest.Remove( tag );
         }
 
@@ -152,17 +152,17 @@ namespace Core.Network {
 
                 var type = pkg.Type;
                 var session = pkg.Session;
-                if( session < 0 ) {
-                    ServerRequest serverReq;
-                    if( s2cRequest.TryGetValue( type, out serverReq ) ) {
-                        serverReq( data );
-                    }
-                }
-                else {
+                if( session > 0 ) {
                     SessionContext context;
                     if( sessionDict.TryGetValue( session, out context ) ) {
                         sessionDict.Remove( session );
                         context.ResponseCallback( data );
+                    }
+                }
+                else {
+                    ServerRequest serverReq;
+                    if( s2cRequest.TryGetValue( type, out serverReq ) ) {
+                        serverReq( data );
                     }
                 }
                 datas = client.Dispatch();

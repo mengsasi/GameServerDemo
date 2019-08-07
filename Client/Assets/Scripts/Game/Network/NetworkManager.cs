@@ -202,6 +202,7 @@ namespace Game.Network {
             req.Callback = ( byte[] response ) => {
                 requests.Remove( req.Session );
 
+                //var res = Utils.ParseByte<T>( response );
                 //没办法统一处理r值
                 //因为返回的是字节数组，不知道什么数据
                 requestCallback( response );
@@ -303,7 +304,6 @@ namespace Game.Network {
                             req.Request,
                             callback,
                         };
-
                         doRequestMethod.Invoke( tcpClient, arguments );
                     }
                 }
@@ -334,9 +334,9 @@ namespace Game.Network {
             foreach( var req in requests ) {
                 if( Time.time - req.Value.ReqTime > 5f ) {
                     clear = true;
-                    ShowErrorMessage( "回包超时！请重新登陆\n" + req.Value.Request.GetType().FullName, false );
-                    Debug.Log( "---ResponseTimeOut:" + req.Value.Request.GetType().FullName + "---" );
-                    //req.Value.Param.Dump();
+                    ShowErrorMessage( "回包超时！请重新登陆\n" + Utils.Byte2String( req.Value.Request ), false );
+                    Debug.Log( "---ResponseTimeOut:" + req.Value.TemplateType.ToString() + "--" );
+                    Debug.Log( "---ResponseTimeOut:" + Utils.Byte2String( req.Value.Request ) + "--" );
                 }
             }
             if( clear )
