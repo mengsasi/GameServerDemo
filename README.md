@@ -21,13 +21,14 @@ Unity运行Game_Server项目
 ### 3，客户端收发包测试
 Unity运行Client项目
 
-测试脚本
+测试脚本 <br/>
 TestLogin 是http登陆 <br/>
 TestGameServer 是tcp登陆
 
 &emsp;
 
 ## 注：
-如果开另外一个电脑当作服务器
-客户端需要配置ip地址
-Login.Server_URL = 服务器ip
+如果开另外一个电脑当作服务器 <br/>
+客户端需要配置ip地址 <br/>
+Login.Server_URL = 服务器ip <br/>
+TestGameServer NetworkManager.TCPHostUrl = 服务器ip
