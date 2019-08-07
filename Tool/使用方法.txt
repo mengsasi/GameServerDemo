@@ -19,7 +19,6 @@ TestLogin 是http登陆
 TestGameServer 是tcp登陆
 
 
-
 注：
 如果开另外一个电脑当作服务器
 客户端需要配置ip地址
@@ -38,12 +37,10 @@ r如果是0，只填充一个r，包是空包，默认就是0，所以用1代表
 
 
 
-
 注：
 测试发包
 仿照玩家升级的包，Player_Upgrade_Level
 完成Hero_Upgrade_Level，Global_Use_Item的收发包测试
 
 在TestScene场景，按流程图（登陆流程.png），完成整个游戏流程的登陆
-
 
