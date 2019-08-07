@@ -8,7 +8,7 @@ import "Item.proto";
 message Character {
 	string id = 1;
 	string name = 2;
-	string level = 3;
+	int32 level = 3;
 	
 	repeated gameProto.Hero heros = 4;
 	repeated gameProto.Item items = 5;

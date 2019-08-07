@@ -24,7 +24,7 @@ namespace GameProto {
           string.Concat(
             "Cg9DaGFyYWN0ZXIucHJvdG8SCWdhbWVQcm90bxoKSGVyby5wcm90bxoKSXRl",
             "bS5wcm90byJ0CglDaGFyYWN0ZXISCgoCaWQYASABKAkSDAoEbmFtZRgCIAEo",
-            "CRINCgVsZXZlbBgDIAEoCRIeCgVoZXJvcxgEIAMoCzIPLmdhbWVQcm90by5I",
+            "CRINCgVsZXZlbBgDIAEoBRIeCgVoZXJvcxgEIAMoCzIPLmdhbWVQcm90by5I",
             "ZXJvEh4KBWl0ZW1zGAUgAygLMg8uZ2FtZVByb3RvLkl0ZW1iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::GameProto.HeroReflection.Descriptor, global::GameProto.ItemReflection.Descriptor, },
@@ -96,12 +96,12 @@ namespace GameProto {
 
     /// <summary>Field number for the "level" field.</summary>
     public const int LevelFieldNumber = 3;
-    private string level_ = "";
+    private int level_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Level {
+    public int Level {
       get { return level_; }
       set {
-        level_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        level_ = value;
       }
     }
 
@@ -151,7 +151,7 @@ namespace GameProto {
       int hash = 1;
       if (Id.Length != 0) hash ^= Id.GetHashCode();
       if (Name.Length != 0) hash ^= Name.GetHashCode();
-      if (Level.Length != 0) hash ^= Level.GetHashCode();
+      if (Level != 0) hash ^= Level.GetHashCode();
       hash ^= heros_.GetHashCode();
       hash ^= items_.GetHashCode();
       return hash;
@@ -172,9 +172,9 @@ namespace GameProto {
         output.WriteRawTag(18);
         output.WriteString(Name);
       }
-      if (Level.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(Level);
+      if (Level != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(Level);
       }
       heros_.WriteTo(output, _repeated_heros_codec);
       items_.WriteTo(output, _repeated_items_codec);
@@ -189,8 +189,8 @@ namespace GameProto {
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
-      if (Level.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Level);
+      if (Level != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Level);
       }
       size += heros_.CalculateSize(_repeated_heros_codec);
       size += items_.CalculateSize(_repeated_items_codec);
@@ -208,7 +208,7 @@ namespace GameProto {
       if (other.Name.Length != 0) {
         Name = other.Name;
       }
-      if (other.Level.Length != 0) {
+      if (other.Level != 0) {
         Level = other.Level;
       }
       heros_.Add(other.heros_);
@@ -231,8 +231,8 @@ namespace GameProto {
             Name = input.ReadString();
             break;
           }
-          case 26: {
-            Level = input.ReadString();
+          case 24: {
+            Level = input.ReadInt32();
             break;
           }
           case 34: {
