@@ -59,11 +59,11 @@ public class TestGameServer : MonoBehaviour {
     }
 
     private void LoginTcp() {
-        //测试
+        //测试假数据
         JsonData token = new JsonData {
             ["token"] = "anjainalls"
         };
-        NetworkManager.LoginToken = token;
+        NetworkManager.LoginToken = token;//实际为http传回来的token
 
         NetworkManager.Instance.OnLoginFinish += ( login, success ) => {
             if( success ) {
@@ -115,40 +115,15 @@ public class TestGameServer : MonoBehaviour {
     }
 
     private void HeroLevelUp() {
-        Hero_Upgrade_Level request = new Hero_Upgrade_Level() {
-            Id = "1"
-        };
 
-        Debug.Log( "Hero_Upgrade_Level" );
 
-        NetworkManager.Instance.DoRequest<Hero_Upgrade_Level>( request.ToByteArray(), ( data ) => {
-            Hero_Upgrade_Level response = Utils.ParseByte<Hero_Upgrade_Level>( data );
-            if( response.R == 1 ) {
-                Debug.Log( "Hero_Upgrade_Level success " + response.R );
-            }
-            else {
-                Debug.Log( "Hero_Upgrade_Level fail " + response.R );
-            }
-        } );
+
     }
 
     private void UseItem() {
-        Global_Use_Item request = new Global_Use_Item() {
-            Id = "1",
-            Count = 1,
-        };
 
-        Debug.Log( "Global_Use_Item" );
 
-        NetworkManager.Instance.DoRequest<Global_Use_Item>( request.ToByteArray(), ( data ) => {
-            Global_Use_Item response = Utils.ParseByte<Global_Use_Item>( data );
-            if( response.R == 1 ) {
-                Debug.Log( "Global_Use_Item success " + response.R );
-            }
-            else {
-                Debug.Log( "Global_Use_Item fail " + response.R );
-            }
-        } );
+
     }
 
 }

@@ -64,7 +64,7 @@ public class TestLogin : MonoBehaviour {
     }
 
     public void Refresh() {
-        string oldToken = global::GameLogin.JsonToken["token"].ValueAsString();
+        string oldToken = GameLogin.JsonToken["token"].ValueAsString();
         GameLogin.RefreshToken( oldToken, ( status, data ) => {
             if( status == HttpManager.HttpResponseStatus.OK ) {
                 Debug.Log( data["token"].ValueAsString() );
