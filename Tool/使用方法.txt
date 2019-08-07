@@ -1,17 +1,18 @@
 安装node-v10.16.0-x64
 
-双击根目录GameDemo下的starthttp开启http服务器
+1，开启http服务器
+双击根目录GameDemo下的starthttp
 
 弹出是否允许访问网络
 点确定
 
 
+2，开启Tcp服务器
 Unity运行Game_Server项目
-开启Tcp服务器
 
 
+3，客户端收发包测试
 Unity运行Client项目
-此时可进行http登陆，tcp收发包测试
 
 
 
@@ -22,13 +23,22 @@ Login.Server_URL = 服务器ip
 
 
 
+备注
 
 服务器发包
 返回错误值r
 所有r=1是正确
 r>1是各种错误
-r如果是0，只填充一个r，包是空包，所以用1代表正确值
+r如果是0，只填充一个r，包是空包，默认就是0，所以用1代表正确值
 
 
+
+
+注：
+测试发包
+仿照玩家升级的包，Player_Upgrade_Level
+完成Hero_Upgrade_Level，Global_Use_Item的收发包测试
+
+在TestScene场景，按流程图（登陆流程.png），完成整个游戏流程的登陆
 
 

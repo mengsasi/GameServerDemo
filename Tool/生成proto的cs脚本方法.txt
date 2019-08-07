@@ -1,0 +1,5 @@
+在protos文件夹下写协议文件
+双击generate.bat
+会在cs文件夹生成对应的cs脚本
+
+copy.bat，会将cs脚本复制到对应客户端，服务器项目中

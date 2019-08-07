@@ -1,0 +1,11 @@
+Doc文件夹是文档，配置文件夹
+
+
+excel2Json_All.py脚本能将此文件夹下的excel生成一个json，供游戏使用
+实际游戏中，应该由服务器生成，并记录到数据库中，这里省略，直接生成了一个json文件使用
+
+excel2Json_All.py
+使用需要安装python，安装xlrd库
+pip install xlrd
+
+项目github地址：https://github.com/mengsasi/excel2Json
