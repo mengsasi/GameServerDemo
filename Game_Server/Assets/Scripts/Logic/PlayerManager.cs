@@ -34,9 +34,15 @@ namespace Logic {
             return null;
         }
 
-        public void Clear( long id, string reason ) {
-
-
+        public void Clear( long id ) {
+            var player = GetPlayer( id );
+            if( player != null ) {
+                player.Client.Close();
+                if( player.Instance != null ) {
+                    player.Instance.Exit();
+                }
+                players.Remove( id );
+            }
         }
 
         public void On_Connect( long id, NetworkProtoClient client ) {
@@ -99,10 +105,12 @@ namespace Logic {
                     rets,
                     head.Session
                 };
+
                 doRequestMethod.Invoke( player.Client, arguments );
             }
         }
 
+        //处理登陆包
         public byte[] Login_Process( PlayerInfo player, long session, byte[] data ) {
             Login login = new Login();
             try {
@@ -128,12 +136,11 @@ namespace Logic {
             catch {
                 login.R = 2;
             }
-            //byte[] rets = login.ToByteArray();
-            //player.Client.DoRequest<Login>( rets, session );
             CheckInitPlayer( player );
             return login.ToByteArray();
         }
 
+        //处理创建角色包
         public byte[] Create_Character_Process( PlayerInfo player, long session, byte[] data ) {
             Player_Create_Character pcc = new Player_Create_Character();
             try {
@@ -150,35 +157,71 @@ namespace Logic {
             catch {
                 pcc.R = 2;
             }
-            //byte[] rets = pcc.ToByteArray();
-            //player.Client.DoRequest<Player_Create_Character>( rets, session );
             CheckInitPlayer( player );
             return pcc.ToByteArray();
         }
 
+        //是否初始化玩家
         private void CheckInitPlayer( PlayerInfo player ) {
-            //
             if( player.Status == "in game" ) {
                 //玩家初始化
-
-
-
+                Register( player.Instance.Id, player );
+                player.Instance.Init();
             }
         }
 
+        //处理一般包
         public byte[] Dispose( PlayerInfo player, Package_Head head, byte[] data ) {
-            if( head.Type == Utils.GetProtpType<Heartbeat>() ) {
+            if( player.Status != "in game" ) {
+                return null;
+            }
+            string headType = head.Type;
+            if( headType == Utils.GetProtpType<Heartbeat>() ) {
                 if( player.Instance != null ) {
                     player.Instance.Heartbeat();
                 }
                 return null;
             }
+            var pack = Utils.GetPackName( headType );
+            var first_index = pack.IndexOf( '_' );
+            var process = pack.Substring( 0, first_index );
+            var methodname = pack.Substring( first_index + 1 );
 
-            return new byte[0];
+            var processor = "Logic." + process + "Processor";
+            Type typeProcessor = Type.GetType( processor );
+            MethodInfo method = typeProcessor.GetMethod( methodname, BindingFlags.Static | BindingFlags.Public );
+            var arguments = new object[]
+            {
+                player.Instance,
+                data
+            };
+            player.Instance.Save();
+            return (byte[])method.Invoke( null, arguments );
         }
 
-        public void Send_Request<T>( long id, byte[] data ) {
-            var player = GetPlayer( id );
+        private Dictionary<string, PlayerInfo> playerIds = new Dictionary<string, PlayerInfo>();
+
+        public void Register( string id, PlayerInfo playerinfo ) {
+            if( !playerIds.ContainsKey( id ) ) {
+                playerIds.Add( id, playerinfo );
+            }
+        }
+
+        public void UnRegister( string id ) {
+            if( playerIds.ContainsKey( id ) ) {
+                playerIds.Remove( id );
+            }
+        }
+
+        public PlayerInfo GetPlayerById( string id ) {
+            if( playerIds.ContainsKey( id ) ) {
+                return playerIds[id];
+            }
+            return null;
+        }
+
+        public void Send_Request<T>( string id, byte[] data ) {
+            var player = GetPlayerById( id );
             if( player == null ) {
                 return;
             }

@@ -1,11 +1,11 @@
 ﻿using GameDatabase;
 using LitJson;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Config {
 
     //升级配置
+    //为了简单，玩家升级和hero升级就都走一个升级配置了
     public class LevelConfig {
         public int Level;
         public ItemData Cost;

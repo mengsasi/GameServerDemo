@@ -107,12 +107,60 @@ public class TestSproto : MonoBehaviour {
         //Debug.Log( heros.ToJson() );
 
 
-        var conf = LevelConfigs.Instance.GetConf( 1 );
-        Debug.Log( conf.Level );
+        //var conf = LevelConfigs.Instance.GetConf( 1 );
+        //Debug.Log( conf.Level );
+
+
+
+        //var pack = "Global_Use_Item";
+        //var first_index = pack.IndexOf( '_' );
+        //var process = pack.Substring( 0, first_index );
+        //var methodname = pack.Substring( first_index + 1 );
+
+        //Debug.Log( process );
+        //Debug.Log( methodname );
+
+
+        //反射获取静态方法
+        //byte[] bb = Utils.String2Byte( "11" );
+        //Debug.Log( "BBBBB " + Utils.Byte2String( bb ) );
+
+        //Type typeProcessor = Type.GetType( "TestSproto" );
+        //MethodInfo method = typeProcessor.GetMethod( "GetPack", BindingFlags.Static | BindingFlags.Public );
+        //var arguments = new object[]
+        //{
+        //    bb
+        //};
+        //var print = (byte[])method.Invoke( null, arguments );
+
+        //Debug.Log( "print " + Utils.Byte2String( print ) );
+
+
+
+        //var data = Utils.String2Byte( "111" );
+
+        //var processor = "Logic." + "Hero" + "Processor";
+        //Type typeProcessor = Type.GetType( processor );
+        //MethodInfo method = typeProcessor.GetMethod( "Test", BindingFlags.Static | BindingFlags.Public );
+        //var arguments = new object[]
+        //{
+        //    data
+        //};
+        //var tt = (byte[])method.Invoke( null, arguments );
+
+        //var dd = Utils.Byte2String( tt );
+
+        //Debug.Log( dd );
 
 
 
 
+
+
+    }
+
+    public static byte[] GetPack( byte[] arg ) {
+        return arg;
     }
 
 }

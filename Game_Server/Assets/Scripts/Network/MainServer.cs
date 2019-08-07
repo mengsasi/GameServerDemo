@@ -30,7 +30,8 @@ namespace Server {
             }
             isStart = true;
             NetworkPool.SetMaxSessionClient( maxSessionClient );
-            NetworkManager.Instance.Init();
+            Core.TickerManager.Instance.Init();
+
             Watchdog = new Socket( AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp );
             IPAddress ipAddress = IPAddress.Parse( host );
             IPEndPoint ipEndPoint = new IPEndPoint( ipAddress, port );
@@ -64,6 +65,11 @@ namespace Server {
             catch( Exception e ) {
                 Debug.Log( "异步建立客户端连接失败：" + e.Message );
             }
+        }
+
+        new void OnDestroy() {
+            base.OnDestroy();
+            GameDatabase.Database.Close();
         }
     }
 }

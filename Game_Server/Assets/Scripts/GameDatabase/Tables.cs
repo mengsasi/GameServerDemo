@@ -26,9 +26,9 @@ namespace GameDatabase {
 
         public int Level { get; set; }
 
-        public string Heros { get; set; }
-
         public string Items { get; set; }
+
+        public string Heros { get; set; }
 
         public List<ItemData> ListItem = new List<ItemData>();
 
@@ -36,12 +36,14 @@ namespace GameDatabase {
             JsonData json = new JsonData();
             for( int i = 0; i < ListItem.Count; i++ ) {
                 var item = ListItem[i];
-                JsonData data = new JsonData();
-                data["id"] = item.Id;
-                data["count"] = item.Count;
+                JsonData data = new JsonData {
+                    ["id"] = item.Id,
+                    ["count"] = item.Count
+                };
                 json.Add( data );
             }
-            return json.ToString();
+            Items = json.ToJson();
+            return Items;
         }
 
         public List<ItemData> GetItems() {
@@ -51,16 +53,55 @@ namespace GameDatabase {
                     JsonData data = JsonMapper.ToObject( Items );
                     var l = data.ValueAsArray();
                     foreach( var item in l ) {
-                        ItemData ii = new ItemData();
-                        ii.Id = item["id"].ValueAsString();
-                        ii.Count = item["count"].ValueAsInt();
+                        ItemData ii = new ItemData {
+                            Id = item["id"].ValueAsString(),
+                            Count = item["count"].ValueAsInt()
+                        };
                         list.Add( ii );
                     }
                 }
                 catch {
                 }
             }
-            return list;
+            ListItem = list;
+            return ListItem;
+        }
+
+        public List<HeroData> ListHero = new List<HeroData>();
+
+        public string GetHeroJson() {
+            JsonData json = new JsonData();
+            for( int i = 0; i < ListHero.Count; i++ ) {
+                var item = ListHero[i];
+                JsonData data = new JsonData {
+                    ["id"] = item.Id,
+                    ["level"] = item.Level
+                };
+                json.Add( data );
+            }
+            Heros = json.ToJson();
+            return Heros;
+        }
+
+        public List<HeroData> GetHeros() {
+            List<HeroData> list = new List<HeroData>();
+            if( !string.IsNullOrEmpty( Heros ) ) {
+                try {
+                    JsonData data = JsonMapper.ToObject( Heros );
+                    var l = data.ValueAsArray();
+                    foreach( var item in l ) {
+                        HeroData ii = new HeroData {
+                            Id = item["id"].ValueAsString(),
+                            Level = item["level"].ValueAsInt()
+                        };
+                        list.Add( ii );
+                    }
+                }
+                catch {
+                }
+            }
+            ListHero = list;
+            return ListHero;
         }
 
     }

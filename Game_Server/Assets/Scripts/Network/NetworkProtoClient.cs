@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Server {
 
-    public class NetworkProtoClient {
+    public class NetworkProtoClient : Core.ITicker {
 
         public long ID;
 
@@ -16,35 +16,27 @@ namespace Server {
 
         private static readonly int MAX_PACK_LEN = ( 1 << 16 ) - 1;
 
-        public long Session {
-            get;
-            set;
-        }
+        //public long Session {
+        //    get;
+        //    set;
+        //}
 
         public void Init( NetworkTcpClient client ) {
-            Session = 0;
+            //Session = 0;
             this.client = client;
             ID = client.ID;
             PlayerManager.Instance.On_Connect( client.ID, this );
         }
 
+        //s2c消息，session = -1
         public long DoRequest<T>( byte[] data, long session = -1 ) {
             //服务器主动发的，是-1
             //客户端发过来，有session，返回的根据客户端的session值
-            long sess = session;
             var type = Utils.GetProtpType<T>();
-            if( session == -1 ) {
-                Session = Session + 1;
-                if( Session > 65535 ) {
-                    Session = 0;
-                }
-                sess = Session;
-                type = NetworkUtils.Instance.ProtoTags[typeof( T )];
-            }
 
             Package_Head pkg = new Package_Head {
                 Type = type,
-                Session = sess
+                Session = session
             };
 
             byte[] head = pkg.ToByteArray();
@@ -53,7 +45,7 @@ namespace Server {
 
             if( length > MAX_PACK_LEN ) {
                 Debug.LogError( "data.Length > " + MAX_PACK_LEN + " => " + length );
-                return Session;
+                return session;
             }
 
             sendStream.Seek( 0, SeekOrigin.Begin );
@@ -63,7 +55,7 @@ namespace Server {
             sendStream.Write( data, 0, data.Length );
 
             client.Send( sendStream.Buffer, sendStream.Position );
-            return Session;
+            return session;
         }
 
         public void Update() {
@@ -80,7 +72,6 @@ namespace Server {
                 byte[] data = Utils.CopyBytes( datas, headLength + 2, datas.Length );
 
                 Package_Head pkg = Utils.ParseByte<Package_Head>( head );
-
                 PlayerManager.Instance.On_Request( client.ID, pkg, data );
 
                 datas = client.Dispatch();
@@ -88,8 +79,7 @@ namespace Server {
         }
 
         public void Close() {
-
-
+            Core.TickerManager.UnRegisterTicker( this );
         }
 
     }

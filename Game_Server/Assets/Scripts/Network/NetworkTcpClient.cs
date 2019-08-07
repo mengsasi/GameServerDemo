@@ -46,7 +46,9 @@ namespace Server {
             }
             ID = NetworkPool.ClientCount;
 
-            NetworkManager.Instance.InitProtoClient( ID, this );
+            var protoClient = new NetworkProtoClient();
+            protoClient.Init( this );
+            Core.TickerManager.RegisterTicker( protoClient );
         }
 
         /// <summary>
@@ -89,6 +91,7 @@ namespace Server {
             InitStream();
             recvQueue.Clear();
             isUse = false;
+            Logic.PlayerManager.Instance.Clear( ID );
         }
 
         public byte[] Dispatch() {
