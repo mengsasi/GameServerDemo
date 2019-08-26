@@ -42,3 +42,10 @@ TestGameServer 是tcp登陆
 客户端需要配置ip地址 <br/>
 Login.Server_URL = 服务器ip <br/>
 TestGameServer NetworkManager.TCPHostUrl = 服务器ip
+
+
+
+###待修改
+反射消耗性能，可以把所有类型注册起来，用一个int类型的消息号，从字典里取具体类型 <br/>
+类似sproto那个c2sprototol <br/>
+前后端，消息协议处的代码一致性 <br/>
