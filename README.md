@@ -14,7 +14,7 @@ Tool 是工具集 <br/>
 &emsp;
 
 ## 安装环境
-安装node-v10.16.0-x64
+安装Tool文件夹下的node-v10.16.0-x64
 
 ### 1，开启http服务器
 双击根目录GameDemo下的starthttp
