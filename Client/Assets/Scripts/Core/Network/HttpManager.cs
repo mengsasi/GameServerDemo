@@ -59,7 +59,7 @@ namespace Core.Network {
         }
 
         private IEnumerator DoPostJson( string url, JsonData body, Action<HttpResponseStatus, JsonData> callback ) {
-            var json = body.ToString();
+            var json = body.ToJson();
             UnityWebRequest request = new UnityWebRequest( url ) {
                 method = "POST",
                 uploadHandler = new UploadHandlerRaw( System.Text.Encoding.UTF8.GetBytes( json ) ),
