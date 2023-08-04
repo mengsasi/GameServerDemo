@@ -126,7 +126,7 @@ namespace Server {
                         try {
                             int length = socket.EndReceive( result );
                             if( length <= 0 ) {
-                                Debug.Log( GetRemoteAddress() + "断开连接" );
+                                Debug.Log( GetRemoteAddress() + "断开连接 EndReceive" );
                                 Close();
                                 return;
                             }

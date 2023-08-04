@@ -58,6 +58,8 @@ namespace Server {
             return session;
         }
 
+        public bool IsTestGCGame = true;
+
         public void Update() {
             if( client == null )
                 return;
@@ -71,8 +73,17 @@ namespace Server {
                 byte[] head = Utils.CopyBytes( datas, 2, headLength + 2 );
                 byte[] data = Utils.CopyBytes( datas, headLength + 2, datas.Length );
 
-                Package_Head pkg = Utils.ParseByte<Package_Head>( head );
-                PlayerManager.Instance.On_Request( client.ID, pkg, data );
+                if( IsTestGCGame ) {
+                    var str = Utils.Byte2String( data );
+                    Debug.Log( "Receive: " + str );
+
+                    var sendBuffer = datas;
+                    client.Send( sendBuffer, sendBuffer.Length );
+                }
+                else {
+                    Package_Head pkg = Utils.ParseByte<Package_Head>( head );
+                    PlayerManager.Instance.On_Request( client.ID, pkg, data );
+                }
 
                 datas = client.Dispatch();
             }
